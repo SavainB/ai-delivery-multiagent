@@ -1,28 +1,28 @@
 # ADR 0003 - Snowflake LLM Provider
 
-## Décision
+## Decision
 
-Introduire une couche provider abstraite avec un provider orienté Snowflake.
+Introduce an abstract provider layer with a Snowflake-oriented provider.
 
-## Motifs
+## Rationale
 
-- ouverture à une intégration entreprise
-- faible couplage avec le reste de l'orchestrateur
-- possibilité de fallback mock pour la démo locale
+- opens the path to enterprise integration
+- keeps low coupling with the rest of the orchestrator
+- allows a mock fallback for the local demo
 
-## Statut actuel
+## Current Status
 
-La couche provider abstraite est en place.
+The abstract provider layer is in place.
 
-Le fallback mock est opérationnel et utilisé pour les démonstrations locales.
+The mock fallback is operational and is used for local demonstrations.
 
-L'intégration Snowflake réelle n'est pas encore finalisée. Le fichier `snowflake_provider.py` doit encore être branché sur un appel réel Snowflake avec structured outputs.
+The real Snowflake integration is not finished yet. The `snowflake_provider.py` file still needs to be connected to a real Snowflake call with structured outputs.
 
-## Cible technique
+## Technical Target
 
-La cible retenue est un usage direct du LLM via Snowflake, avec :
+The selected target is direct LLM usage through Snowflake, with:
 
-- configuration centralisée
-- structured outputs JSON
-- validation Pydantic côté Python
-- conservation du fallback mock pour les tests hors dépendance externe
+- centralized configuration
+- JSON structured outputs
+- Pydantic validation on the Python side
+- retention of the mock fallback for tests without external dependencies

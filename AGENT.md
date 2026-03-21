@@ -1,124 +1,124 @@
 # AGENT.md
 
-## But du dépôt
+## Repository Goal
 
-Construire un **système multi-agents Python** qui prend une expression de besoin en entrée et produit de manière autonome les principaux artefacts d'un pipeline de livraison logicielle.
+Build a **Python multi-agent system** that takes a requirement expression as input and autonomously produces the main artifacts of a software delivery pipeline.
 
-Le dépôt principal est **le générateur**.
-L'application de démonstration produite par ce générateur doit être écrite dans `workspace/generated_app/`.
+The main repository is **the generator**.
+The demo application produced by this generator must be written to `workspace/generated_app/`.
 
-Le sujet source est `IBM.docx` à la racine du dépôt.
+The source brief is `IBM.docx` at the repository root.
 
-## Source de vérité
+## Source of Truth
 
-Le projet doit concilier deux sources :
+The project must reconcile two sources:
 
-1. Le brief IBM contenu dans `IBM.docx`
-2. Le choix d'architecture déjà validé par l'utilisateur
+1. The IBM brief contained in `IBM.docx`
+2. The architecture choice already validated by the user
 
-En cas de tension entre plusieurs options de design :
+If several design options compete:
 
-- préférer la simplicité
-- préférer le déterminisme
-- préférer la fiabilité de démonstration
-- éviter une autonomie agentique excessive
+- prefer simplicity
+- prefer determinism
+- prefer demo reliability
+- avoid excessive agent autonomy
 
-## Résumé fidèle du brief IBM
+## Faithful Summary of the IBM Brief
 
-### Objectif fonctionnel global
+### Overall Functional Goal
 
-Le système doit prendre comme entrée une expression de besoin, par exemple :
+The system must take a requirement expression as input, for example:
 
-- spécifications fonctionnelles
-- texte libre
-- croquis
-- supports visuels
-- maquettes
+- functional specifications
+- free text
+- sketches
+- visual material
+- mockups
 
-Puis produire les principaux artefacts d'un pipeline logiciel :
+Then it must produce the main artifacts of a software pipeline:
 
-- analyse du besoin
-- plan projet
-- documentation d'architecture
-- arborescence de dépôt
-- code applicatif
+- requirement analysis
+- project plan
+- architecture documentation
+- repository structure
+- application code
 - tests
 - CI/CD
-- traces de raisonnement
+- reasoning traces
 
-### Capacités attendues
+### Expected Capabilities
 
-Le système doit être capable de :
+The system must be able to:
 
-- analyser les spécifications d'entrée
-- identifier modules, parcours utilisateurs, contraintes et composants
-- créer un environnement de développement
-- initialiser un dépôt Git
-- générer l'ossature du projet
-- configurer une pipeline CI/CD
-- produire une documentation d'architecture basée sur le modèle C4
-- générer le code de l'application
-- générer des tests unitaires
-- générer une interface adaptable au contexte client
-- exposer les traces de raisonnement `Plan / Act / Reason`
+- analyze input specifications
+- identify modules, user journeys, constraints, and components
+- create a development environment
+- initialize a Git repository
+- generate the project scaffold
+- configure a CI/CD pipeline
+- produce architecture documentation based on the C4 model
+- generate application code
+- generate unit tests
+- generate an interface adaptable to the client context
+- expose `Plan / Act / Reason` reasoning traces
 
-### Contraintes techniques IBM
+### IBM Technical Constraints
 
-- utiliser **au moins un LLM open source**
-- utiliser un **framework agentique open source**
-- objectiver le choix du framework agentique
-- produire une solution défendable en contexte entreprise
+- use **at least one open-source LLM**
+- use an **open-source agent framework**
+- justify the agent framework choice
+- produce a solution that is defensible in an enterprise context
 
-### Application candidate fournie par IBM
+### IBM Demo Candidate Application
 
-L'application de démonstration attendue est une **application simple de gestion de tâches** de type ToDo / suivi de demandes avec :
+The expected demo application is a **simple task management application** in a ToDo / request-tracking style with:
 
-- identification ou connexion utilisateur simplifiée
-- tableau de bord filtrable
-- création / modification / suppression de tâches
-- page de détail avec description, priorité, date d'échéance, statut
-- en option : assignation, commentaires, historique
+- simplified user identification or login
+- a filterable dashboard
+- task creation / update / deletion
+- a detail page with description, priority, due date, and status
+- optionally: assignment, comments, history
 
-## Décisions d'architecture retenues
+## Approved Architecture Decisions
 
-Ces choix sont considérés comme validés et ne doivent pas être réouverts sans raison forte :
+These choices are considered validated and should not be reopened without strong reason:
 
-- langage principal : `Python 3.11`
-- gestion de projet : `uv`
-- lint et format : `ruff`
-- hooks Git : `pre-commit`
-- tests : `pytest`
-- orchestration multi-agents : `LangGraph`
-- support prompts/outils/parsing : `LangChain` seulement si utile, pas comme couche dominante
-- contrats typés : `Pydantic`
-- provider LLM abstrait : interface générique + implémentation orientée Snowflake
-- backend généré : `FastAPI`
-- frontend généré : `React + Vite + Tailwind`
-- base de données démo : `SQLite`
-- CI/CD : `GitHub Actions`
-- documentation C4 : `Mermaid`
+- main language: `Python 3.11`
+- project management: `uv`
+- lint and format: `ruff`
+- Git hooks: `pre-commit`
+- tests: `pytest`
+- multi-agent orchestration: `LangGraph`
+- prompt/tool/parsing support: `LangChain` only if useful, not as the dominant layer
+- typed contracts: `Pydantic`
+- abstract LLM provider: generic interface + Snowflake-oriented implementation
+- generated backend: `FastAPI`
+- generated frontend: `React + Vite + Tailwind`
+- demo database: `SQLite`
+- CI/CD: `GitHub Actions`
+- C4 documentation: `Mermaid`
 
-## Principe directeur du dépôt
+## Guiding Repository Principle
 
-Le repo principal n'est **pas** l'application ToDo.
+The main repository is **not** the ToDo application itself.
 
-Le repo principal contient :
+The main repository contains:
 
-- l'orchestrateur multi-agents
-- les prompts
-- les modèles de données
-- les outils de génération
-- les templates
-- les scripts de démo
-- les sorties et traces
+- the multi-agent orchestrator
+- prompts
+- data models
+- generation tools
+- templates
+- demo scripts
+- outputs and traces
 
-L'application générée doit vivre sous :
+The generated application must live under:
 
 - `workspace/generated_app/`
 
-## Structure cible du dépôt
+## Target Repository Structure
 
-La structure cible de référence est :
+The reference target structure is:
 
 ```text
 ai-delivery-multiagent/
@@ -134,45 +134,45 @@ ai-delivery-multiagent/
 └─ scripts/
 ```
 
-## Agents à implémenter
+## Agents to Implement
 
 ### `spec_analyst`
 
-- analyser les entrées utilisateur
-- identifier user stories, modules, contraintes, parcours et composants
-- produire une première structuration exploitable
-- produire une sortie JSON validée
+- analyze user inputs
+- identify user stories, modules, constraints, journeys, and components
+- produce an initial usable structure
+- produce a validated JSON output
 
 ### `architect`
 
-- définir l'architecture globale
-- proposer le découpage backend/frontend
-- définir le modèle de données
-- préparer la structure du projet généré
-- produire les artefacts C4
+- define the overall architecture
+- propose the backend/frontend split
+- define the data model
+- prepare the generated project structure
+- produce the C4 artifacts
 
 ### `developer`
 
-- générer le backend dans `workspace/generated_app/`
-- générer le frontend dans `workspace/generated_app/`
-- générer les premiers tests
-- générer le README de l'application produite
+- generate the backend in `workspace/generated_app/`
+- generate the frontend in `workspace/generated_app/`
+- generate the first tests
+- generate the produced application README
 
 ### `qa_devops`
 
-- générer la CI/CD
-- ajouter la validation locale
-- vérifier lint et tests
-- proposer ou appliquer des corrections simples
+- generate CI/CD
+- add local validation
+- verify lint and tests
+- propose or apply simple fixes
 
 ### `reviewer`
 
-- vérifier la cohérence entre besoin, architecture, code et traces
-- produire un rapport final exploitable en démo
+- verify consistency across requirement, architecture, code, and traces
+- produce a final report usable in the demo
 
-## Workflow recommandé
+## Recommended Workflow
 
-Flux nominal :
+Nominal flow:
 
 ```text
 START
@@ -184,11 +184,11 @@ START
 -> END
 ```
 
-Le graphe doit rester **simple, lisible et déterministe**.
+The graph must remain **simple, readable, and deterministic**.
 
-## État central à prévoir
+## Central State to Provide
 
-Le fichier `src/ai_delivery/state.py` doit définir un état central typé contenant au minimum :
+The `src/ai_delivery/state.py` file must define a typed central state containing at least:
 
 - `raw_input`
 - `parsed_requirements`
@@ -201,145 +201,90 @@ Le fichier `src/ai_delivery/state.py` doit définir un état central typé conte
 - `run_metadata`
 - `errors`
 
-## Couche provider LLM
+## LLM Provider Layer
 
-Fichiers attendus :
+Expected files:
 
 - `src/ai_delivery/llm/base.py`
 - `src/ai_delivery/llm/snowflake_provider.py`
 - `src/ai_delivery/llm/structured_output.py`
 - `src/ai_delivery/llm/prompt_loader.py`
 
-Règles :
+Rules:
 
-- aucune dépendance forte du reste du système à un provider concret
-- possibilité de brancher ultérieurement un provider Snowflake réel
-- présence d'un chemin mock/fake pour la démo locale
-- sorties structurées validées par Pydantic
-- gestion propre des erreurs de parsing
-- retries bornés et traçables
+- no strong dependency from the rest of the system on a concrete provider
+- allow a future real Snowflake provider
+- keep a mock/fake path for local demo use
+- validate structured outputs with Pydantic
+- handle parsing errors cleanly
+- keep retries bounded and traceable
 
-## Gestion des prompts
+## Prompt Management
 
-Les prompts doivent être **stockés dans des fichiers**, jamais en gros blocs inline dans le code Python.
+Prompts must be **stored in files**, never as large inline blocks in Python code.
 
-## Application générée attendue
+## Expected Generated Application
 
-Le système doit générer une application de gestion de tâches dans `workspace/generated_app/`.
+The system must generate a task management application in `workspace/generated_app/`.
 
-### Backend généré
+### Generated Backend
 
 - `FastAPI`
 - `SQLite`
-- API CRUD de tâches
-- séparation routeurs / services / modèles
+- task CRUD API
+- separated routers / services / models
 
-### Frontend généré
+### Generated Frontend
 
 - `React`
 - `Vite`
 - `Tailwind`
 - dashboard
-- liste de tâches filtrable
-- détail d'une tâche
-- formulaire de création / édition
-- branding configurable
+- filterable task list
+- task detail
+- create / edit form
+- configurable branding
 
-## Documentation C4
+## C4 Documentation
 
-Le système doit produire au minimum :
+The system must produce at least:
 
-- diagramme de contexte
-- diagramme de conteneurs
-- diagramme de composants
-- description technique courte
+- context diagram
+- container diagram
+- component diagram
+- short technical description
 
-Format recommandé :
+Recommended format:
 
-- `Mermaid` intégré dans des `.md`
+- `Mermaid` embedded in `.md` files
 
-## Traces de raisonnement
+## Definition of Done
 
-Le sujet IBM impose de montrer `Plan / Act / Reason`.
+The project must not be considered finished until the following are true:
 
-Les traces doivent être :
+- the pipeline can be launched through CLI and API
+- traces are written to `outputs/traces/`
+- a plan is written to `outputs/plans/`
+- the generated app exists in `workspace/generated_app/`
+- the generated backend exposes task CRUD
+- the generated frontend lets users manipulate tasks
+- `pre-commit` is configured
+- the real Snowflake provider is connected for a non-mock test
 
-- sauvegardées sur disque
-- lisibles
-- structurées
-- démontrables en soutenance
+## Anti-Patterns to Avoid
 
-Répertoire cible :
+- notebook-based architecture
+- a single monolithic script
+- prompts hidden in code
+- agents with fuzzy responsibilities
+- mandatory dependence on an external LLM service for the local demo
+- purely cosmetic frontend with no API integration
 
-- `outputs/traces/`
+## Working Convention
 
-## API et intervention utilisateur
+For future Codex calls:
 
-Le générateur expose une API propre à piloter le pipeline.
-
-Le mode interactif doit permettre :
-
-- de lancer un run
-- de consulter l'état courant
-- d'approuver une étape
-- de modifier certains champs de l'état
-- de reprendre l'exécution
-
-L'API du générateur n'est pas l'application générée.
-
-## Qualité et outillage
-
-Outils imposés :
-
-- `uv`
-- `ruff`
-- `pytest`
-- `pre-commit`
-- `GitHub Actions`
-
-## Règles de code
-
-- typage Python complet
-- pas de logique métier dans `main.py`
-- pas de fichiers monolithiques
-- séparation stricte entre `agents`, `graph`, `llm`, `contracts`, `tools`, `services`
-- usage de `pathlib`
-- pas d'état global mutable caché
-- privilégier du code concret à du pseudo-code
-
-## Définition de "done"
-
-Le projet ne doit pas être considéré comme terminé tant que les points suivants ne sont pas vrais :
-
-- le pipeline peut être lancé via CLI et API
-- un `dry-run` fonctionne
-- des traces sont écrites dans `outputs/traces/`
-- un plan est écrit dans `outputs/plans/`
-- des docs C4 existent dans `docs/` et `outputs/c4/`
-- l'application générée existe dans `workspace/generated_app/`
-- le backend généré expose un CRUD de tâches
-- le frontend généré permet de manipuler les tâches
-- `ruff check` passe
-- `ruff format --check` passe
-- `pytest` passe
-- `pre-commit` est configuré
-- la CI GitHub existe
-- le provider Snowflake réel est branché pour un test non mock
-
-## Anti-patterns à éviter
-
-- architecture notebook
-- script unique monolithique
-- prompts cachés dans le code
-- agents aux responsabilités floues
-- dépendance obligatoire à un service LLM externe pour la démo locale
-- frontend purement cosmétique sans intégration API
-
-## Utilisation de ce fichier
-
-Lors d'un prochain appel Codex :
-
-1. lire `AGENT.md`
-2. lire `TODO.md`
-3. considérer `AGENT.md` comme contrat de cadrage
-4. utiliser `TODO.md` comme backlog vivant
+1. read `AGENT.md`
+2. treat this file as the project framing contract
+3. check `IBM.docx` only if doubt remains about the brief
+4. implement without reopening decisions already made here unless a major contradiction appears

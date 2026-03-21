@@ -45,19 +45,19 @@ class ArchitectureService:
         design.c4_documents = [
             C4Document(
                 name="context",
-                description="Vue de contexte du generateur et de l'application cible.",
+                description="Context view of the generator and the target application.",
                 mermaid=build_context_diagram(blueprint.project_name),
                 output_path="docs/c4-context.md",
             ),
             C4Document(
                 name="container",
-                description="Vue conteneurs du generateur.",
+                description="Container view of the generator.",
                 mermaid=build_container_diagram(),
                 output_path="docs/c4-container.md",
             ),
             C4Document(
                 name="component",
-                description="Vue composants de la chaine de generation.",
+                description="Component view of the generation chain.",
                 mermaid=build_component_diagram(),
                 output_path="docs/c4-component.md",
             ),

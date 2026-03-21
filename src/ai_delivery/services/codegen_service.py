@@ -75,12 +75,12 @@ class CodegenService:
             [
                 f"# {context['APP_NAME']}",
                 "",
-                f"Application de demonstration generee pour {context['CLIENT_NAME']}.",
+                f"Generated demo application for {context['CLIENT_NAME']}.",
                 "",
                 "## Structure",
                 "",
-                "- `backend/` : API FastAPI",
-                "- `frontend/` : interface React",
+                "- `backend/`: FastAPI API",
+                "- `frontend/`: React interface",
             ]
         )
         write_text(workspace / "README.md", readme + "\n")

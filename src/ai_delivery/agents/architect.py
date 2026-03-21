@@ -24,9 +24,9 @@ class ArchitectAgent:
         state.reasoning_trace.append(
             ReasoningStep(
                 stage=self.name,
-                plan="Transformer les exigences en architecture et vues C4.",
-                act="Production du blueprint, des decisions et des diagrammes.",
-                reason="La solution doit rester defendable et coherente avec le brief IBM.",
+                plan="Turn the requirements into an architecture and C4 views.",
+                act="Produce the blueprint, decisions, and diagrams.",
+                reason="The solution must remain defensible and coherent with the IBM brief.",
             )
         )
         return state

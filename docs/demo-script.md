@@ -1,35 +1,35 @@
 # Demo Script
 
-## Préparation
+## Preparation
 
-1. Activer la venv.
-2. Lancer l'API du générateur :
+1. Activate the virtual environment.
+2. Start the generator API:
    `python -m ai_delivery.cli serve --host 127.0.0.1 --port 8000`
 
-## Démo live
+## Live Demo
 
-1. Montrer `IBM.docx` et rappeler le sujet du hackathon.
-2. Expliquer la séparation entre :
-   - l'API du générateur
-   - l'application générée dans `workspace/generated_app/`
-3. Vérifier l'API :
+1. Show `IBM.docx` and restate the hackathon topic.
+2. Explain the separation between:
+   - the generator API
+   - the generated application in `workspace/generated_app/`
+3. Verify the API:
    `curl http://127.0.0.1:8000/health`
-4. Lancer un run interactif :
+4. Start an interactive run:
    `POST /runs`
-5. Montrer la pause après `spec_analyst`.
-6. Consulter l'état du run avec `GET /runs/{run_id}`.
-7. Reprendre le run jusqu'à la pause suivante.
-8. Montrer les artefacts déjà écrits :
+5. Show the pause after `spec_analyst`.
+6. Inspect the run state with `GET /runs/{run_id}`.
+7. Resume the run until the next pause.
+8. Show the artifacts already written:
    - `outputs/plans/`
    - `outputs/traces/`
    - `outputs/c4/`
-9. Continuer jusqu'à la fin.
-10. Ouvrir `workspace/generated_app/`.
-11. Montrer la structure backend/frontend générée.
-12. Montrer la CI, les tests et le branding.
+9. Continue until the end.
+10. Open `workspace/generated_app/`.
+11. Show the generated backend/frontend structure.
+12. Show the CI, tests, and branding hooks.
 
-## Message à expliciter au jury
+## Message to Make Explicit to the Jury
 
-- le système est déjà démontrable de bout en bout
-- le provider mock permet la démo locale
-- le prochain jalon est le branchement Snowflake réel
+- the system is already demoable end to end
+- the mock provider enables the local demo
+- the next milestone is the real Snowflake connection

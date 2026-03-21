@@ -1,11 +1,11 @@
 # ADR 0001 - LangGraph
 
-## Décision
+## Decision
 
-Utiliser LangGraph comme framework d'orchestration agentique.
+Use LangGraph as the agent orchestration framework.
 
-## Motifs
+## Rationale
 
-- graphe lisible pour la démonstration
-- enchaînement déterministe
-- séparation claire entre nœuds et état
+- readable graph for the demo
+- deterministic sequencing
+- clear separation between nodes and state

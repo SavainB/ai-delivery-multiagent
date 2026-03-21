@@ -1,6 +1,6 @@
 # C4 Container
 
-Vue conteneurs du generateur.
+Container view of the generator.
 
 ```mermaid
 flowchart TB

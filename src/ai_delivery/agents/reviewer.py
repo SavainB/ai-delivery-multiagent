@@ -25,9 +25,12 @@ class ReviewerAgent:
         state.reasoning_trace.append(
             ReasoningStep(
                 stage=self.name,
-                plan="Valider la coherence globale des livrables.",
-                act="Generation d'un rapport final.",
-                reason="Le jury verifiera la coherence entre besoin, architecture, code et traces.",
+                plan="Validate the overall consistency of the deliverables.",
+                act="Generate a final report.",
+                reason=(
+                    "The jury will verify consistency across requirement, "
+                    "architecture, code, and traces."
+                ),
             )
         )
         return state

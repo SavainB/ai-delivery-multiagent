@@ -1,127 +1,127 @@
 # TODO.md
 
-Backlog vivant du projet `ai-delivery-multiagent`.
+Living backlog for the `ai-delivery-multiagent` project.
 
-Convention :
+Convention:
 
-- `[x]` terminé
-- `[ ]` à faire
-- `P0` critique pour un vrai test du projet
-- `P1` important pour une démo jury solide
-- `P2` amélioration utile mais non bloquante
+- `[x]` completed
+- `[ ]` to do
+- `P0` critical for a real project test
+- `P1` important for a strong jury demo
+- `P2` useful improvement but not blocking
 
-## État global estimé
+## Estimated Overall Status
 
-- avancement global : `~70%`
-- très avancé sur l'ossature, l'API du générateur, les tests du générateur et la démonstration interactive
-- en retard principal sur le vrai provider Snowflake et sur la substance de l'application générée
+- overall progress: `~70%`
+- very advanced on the generator skeleton, generator API, generator tests, and interactive demo flow
+- the main gap is the real Snowflake provider and the depth of the generated application
 
-## Déjà fait
+## Already Done
 
-- [x] structure monorepo Python du générateur
-- [x] orchestrateur multi-agents visible
-- [x] API FastAPI du générateur
-- [x] CLI avec `run`, `resume`, `intervene`, `serve`
-- [x] mode interactif avec arrêt entre étapes
-- [x] état central typé
-- [x] prompts versionnés hors code
-- [x] docs C4 générées
-- [x] outillage `uv`, `ruff`, `pytest`, `pre-commit`, CI
-- [x] génération d'une application cible dans `workspace/generated_app/`
-- [x] tests du générateur qui passent
+- [x] Python monorepo structure for the generator
+- [x] visible multi-agent orchestrator
+- [x] FastAPI generator API
+- [x] CLI with `run`, `resume`, `intervene`, `serve`
+- [x] interactive mode with pauses between stages
+- [x] typed central state
+- [x] versioned prompts outside the codebase
+- [x] generated C4 documentation
+- [x] `uv`, `ruff`, `pytest`, `pre-commit`, CI tooling
+- [x] generation of a target application in `workspace/generated_app/`
+- [x] generator tests passing
 
-## P0 - Vrai test projet
+## P0 - Real Project Test
 
-### 1. Brancher le vrai provider Snowflake
+### 1. Connect the Real Snowflake Provider
 
-- [ ] implémenter l'appel réel Snowflake dans [ai-delivery-multiagent/src/ai_delivery/llm/snowflake_provider.py](src/ai_delivery/llm/snowflake_provider.py)
-- [ ] choisir le mode d'intégration exact :
-  `AI_COMPLETE` SQL, Cortex Python, ou REST
-- [ ] ajouter les variables de config Snowflake dans [ai-delivery-multiagent/.env.example](.env.example)
-- [ ] charger automatiquement `.env` dans [ai-delivery-multiagent/src/ai_delivery/settings.py](src/ai_delivery/settings.py)
-- [ ] enrichir [ai-delivery-multiagent/configs/models.yaml](configs/models.yaml) avec la config Snowflake réelle
-- [ ] convertir les schémas Pydantic en structured outputs exploitables par Snowflake
-- [ ] gérer proprement les erreurs réseau, auth et parsing
-- [ ] ajouter tests unitaires du provider Snowflake mocké
-- [ ] ajouter un test d'intégration activable par variables d'environnement
+- [ ] implement the real Snowflake call in [ai-delivery-multiagent/src/ai_delivery/llm/snowflake_provider.py](src/ai_delivery/llm/snowflake_provider.py)
+- [ ] choose the exact integration mode:
+  `AI_COMPLETE` SQL, Cortex Python, or REST
+- [ ] add Snowflake config variables to [ai-delivery-multiagent/.env.example](.env.example)
+- [ ] automatically load `.env` in [ai-delivery-multiagent/src/ai_delivery/settings.py](src/ai_delivery/settings.py)
+- [ ] enrich [ai-delivery-multiagent/configs/models.yaml](configs/models.yaml) with the real Snowflake config
+- [ ] convert Pydantic schemas into Snowflake-usable structured outputs
+- [ ] handle network, auth, and parsing errors cleanly
+- [ ] add unit tests for the mocked Snowflake provider
+- [ ] add an integration test that can be enabled through environment variables
 
-### 2. Rendre l'application générée réellement démontrable
+### 2. Make the Generated Application Truly Demoable
 
-- [ ] remplacer le stockage mémoire par SQLite réel dans [ai-delivery-multiagent/src/ai_delivery/templates/backend/app/db.py](src/ai_delivery/templates/backend/app/db.py)
-- [ ] brancher le CRUD backend sur SQLite dans [ai-delivery-multiagent/src/ai_delivery/templates/backend/app/services.py](src/ai_delivery/templates/backend/app/services.py)
-- [ ] renforcer les tests du backend généré dans [ai-delivery-multiagent/src/ai_delivery/templates/backend/tests/test_tasks.py](src/ai_delivery/templates/backend/tests/test_tasks.py)
-- [ ] connecter le frontend généré au backend dans [ai-delivery-multiagent/src/ai_delivery/templates/frontend/src/App.jsx](src/ai_delivery/templates/frontend/src/App.jsx)
-- [ ] remplacer le faux state local frontend par de vrais appels API
-- [ ] finaliser la vraie config Tailwind au lieu d'une simple dépendance déclarée
-- [ ] régénérer [ai-delivery-multiagent/workspace/generated_app](workspace/generated_app) après mise à niveau des templates
+- [ ] replace in-memory storage with real SQLite in [ai-delivery-multiagent/src/ai_delivery/templates/backend/app/db.py](src/ai_delivery/templates/backend/app/db.py)
+- [ ] connect backend CRUD to SQLite in [ai-delivery-multiagent/src/ai_delivery/templates/backend/app/services.py](src/ai_delivery/templates/backend/app/services.py)
+- [ ] strengthen generated backend tests in [ai-delivery-multiagent/src/ai_delivery/templates/backend/tests/test_tasks.py](src/ai_delivery/templates/backend/tests/test_tasks.py)
+- [ ] connect the generated frontend to the backend in [ai-delivery-multiagent/src/ai_delivery/templates/frontend/src/App.jsx](src/ai_delivery/templates/frontend/src/App.jsx)
+- [ ] replace fake frontend local state with real API calls
+- [ ] finalize real Tailwind configuration instead of only declaring the dependency
+- [ ] regenerate [ai-delivery-multiagent/workspace/generated_app](workspace/generated_app) after upgrading the templates
 
-## P1 - Démo jury solide
+## P1 - Strong Jury Demo
 
-### 3. Renforcer l'expérience d'intervention utilisateur
+### 3. Strengthen the User Intervention Experience
 
-- [ ] limiter les interventions autorisées selon l'étape courante
-- [ ] ajouter des endpoints métier plus simples :
+- [ ] limit allowed interventions based on the current stage
+- [ ] add simpler business endpoints:
   `approve`, `pause`, `cancel`
-- [ ] rendre les erreurs d'intervention plus pédagogiques
-- [ ] documenter précisément le flux interactif dans [ai-delivery-multiagent/README.md](README.md)
-- [ ] ajouter plus de tests d'intégration interactifs
+- [ ] make intervention errors more instructional
+- [ ] document the interactive flow precisely in [ai-delivery-multiagent/README.md](README.md)
+- [ ] add more interactive integration tests
 
-### 4. Durcir le pipeline generated app
+### 4. Harden the Generated App Pipeline
 
-- [ ] transformer [ai-delivery-multiagent/.github/workflows/generated-app-ci.yml](.github/workflows/generated-app-ci.yml) en vraie CI de l'app générée
-- [ ] vérifier réellement le backend généré
-- [ ] vérifier réellement le frontend généré
-- [ ] ajouter une procédure de bootstrap simple dans le workspace généré
-- [ ] ajouter un README plus complet dans [ai-delivery-multiagent/workspace/generated_app/README.md](workspace/generated_app/README.md)
+- [ ] turn [ai-delivery-multiagent/.github/workflows/generated-app-ci.yml](.github/workflows/generated-app-ci.yml) into a real CI pipeline for the generated app
+- [ ] truly verify the generated backend
+- [ ] truly verify the generated frontend
+- [ ] add a simple bootstrap procedure in the generated workspace
+- [ ] add a fuller README in [ai-delivery-multiagent/workspace/generated_app/README.md](workspace/generated_app/README.md)
 
-### 5. Améliorer la démo
+### 5. Improve the Demo
 
-- [ ] enrichir [ai-delivery-multiagent/inputs/sample_spec.md](inputs/sample_spec.md) avec une spec jury plus crédible
-- [ ] améliorer [ai-delivery-multiagent/docs/demo-script.md](docs/demo-script.md) en script minute par minute
-- [ ] préparer un exemple de branding client plus réaliste dans [ai-delivery-multiagent/configs/clients/demo_brand.yaml](configs/clients/demo_brand.yaml)
-- [ ] ajouter un enchaînement de démonstration dans [ai-delivery-multiagent/scripts/run_demo.sh](scripts/run_demo.sh)
+- [ ] enrich [ai-delivery-multiagent/inputs/sample_spec.md](inputs/sample_spec.md) with a more credible jury-ready spec
+- [ ] improve [ai-delivery-multiagent/docs/demo-script.md](docs/demo-script.md) into a minute-by-minute script
+- [ ] prepare a more realistic client branding example in [ai-delivery-multiagent/configs/clients/demo_brand.yaml](configs/clients/demo_brand.yaml)
+- [ ] add a demo sequence in [ai-delivery-multiagent/scripts/run_demo.sh](scripts/run_demo.sh)
 
-## P2 - Améliorations utiles
+## P2 - Useful Improvements
 
-### 6. Industrialisation
+### 6. Industrialization
 
-- [ ] ajouter authentification sur l'API du générateur
-- [ ] remplacer la persistance JSON simple des sessions par un stockage plus robuste
-- [ ] ajouter observabilité plus détaillée
-- [ ] nettoyer les fichiers `__pycache__` du repo et prévenir leur retour
+- [ ] add authentication to the generator API
+- [ ] replace simple JSON session persistence with more robust storage
+- [ ] add more detailed observability
+- [ ] remove `__pycache__` files from the repo and prevent them from coming back
 
-### 7. Expérience développeur
+### 7. Developer Experience
 
-- [ ] ajouter chargement automatique de `.env`
-- [ ] ajouter commande `make demo`
-- [ ] ajouter exemples `curl` prêts à copier dans la README
-- [ ] ajouter tests API FastAPI dédiés avec `TestClient`
+- [ ] add automatic `.env` loading
+- [ ] add a `make demo` command
+- [ ] add ready-to-copy `curl` examples to the README
+- [ ] add dedicated FastAPI API tests with `TestClient`
 
-## Ordre recommandé
+## Recommended Order
 
-1. `P0.1` vrai provider Snowflake
-2. `P0.2` SQLite réel et app générée plus solide
-3. `P1.3` expérience d'intervention
-4. `P1.4` vraie CI generated app
-5. `P1.5` polish démo
+1. `P0.1` real Snowflake provider
+2. `P0.2` real SQLite and a stronger generated app
+3. `P1.3` intervention experience
+4. `P1.4` real generated app CI
+5. `P1.5` demo polish
 
-## Definition of done revue
+## Definition of Done Review
 
-Le projet pourra être considéré comme vraiment conforme à l'intention initiale quand :
+The project can be considered truly aligned with the original intent when:
 
-- [ ] le provider Snowflake réel est branché
-- [ ] un run complet fonctionne sans mock
-- [ ] l'utilisateur peut intervenir pendant la génération via l'API
-- [ ] l'application générée tourne réellement avec backend + frontend
-- [ ] le backend généré utilise SQLite
-- [ ] le frontend généré appelle l'API backend
-- [ ] la generated app possède une CI utile
-- [ ] la démo jury est exécutable de bout en bout
+- [ ] the real Snowflake provider is connected
+- [ ] a full run works without mocks
+- [ ] the user can intervene during generation through the API
+- [ ] the generated app actually runs with backend + frontend
+- [ ] the generated backend uses SQLite
+- [ ] the generated frontend calls the backend API
+- [ ] the generated app has useful CI
+- [ ] the jury demo runs end to end
 
-## Note de méthode
+## Working Note
 
-Bonne pratique retenue :
+Current best practice:
 
-- `AGENT.md` = document stable de cadrage
-- `TODO.md` = backlog vivant et priorisé
-- `AGENTS.md` = mode d'emploi pour les prochains appels Codex
+- `AGENT.md` = stable project framing document
+- `TODO.md` = living prioritized backlog
+- `AGENTS.md` = usage guide for future Codex calls

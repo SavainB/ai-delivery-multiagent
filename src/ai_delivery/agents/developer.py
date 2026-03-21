@@ -17,12 +17,9 @@ class DeveloperAgent:
         state.reasoning_trace.append(
             ReasoningStep(
                 stage=self.name,
-                plan="Generer l'application cible et sa structure technique.",
-                act="Rendu des templates backend et frontend dans le workspace.",
-                reason=(
-                    "Le sujet demande des artefacts logiciels tangibles, "
-                    "pas seulement de la documentation."
-                ),
+                plan="Generate the target application and its technical structure.",
+                act="Render the backend and frontend templates into the workspace.",
+                reason=("The topic requires tangible software artifacts, not only documentation."),
             )
         )
         return state

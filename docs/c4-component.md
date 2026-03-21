@@ -1,6 +1,6 @@
 # C4 Component
 
-Vue composants de la chaine de generation.
+Component view of the generation chain.
 
 ```mermaid
 flowchart LR

@@ -1,11 +1,11 @@
 # ADR 0002 - Python
 
-## Décision
+## Decision
 
-Utiliser Python 3.11 pour le générateur.
+Use Python 3.11 for the generator.
 
-## Motifs
+## Rationale
 
-- contrainte utilisateur validée
-- écosystème riche pour l'IA et l'automatisation
-- bonne lisibilité pour un hackathon
+- validated user constraint
+- rich ecosystem for AI and automation
+- good readability for a hackathon

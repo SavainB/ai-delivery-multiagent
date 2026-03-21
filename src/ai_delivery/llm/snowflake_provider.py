@@ -22,28 +22,28 @@ class MockLLMProvider(BaseLLMProvider):
         prompt_lower = prompt.lower()
         if schema is ParsedRequirements:
             return ParsedRequirements(
-                summary="Prototype de gestion de taches pour equipes projet.",
+                summary="Task management prototype for project teams.",
                 user_stories=[
                     UserStory(
-                        title="Consulter les taches",
-                        description="Un utilisateur voit un tableau de bord filtrable.",
-                        acceptance_criteria=["liste visible", "filtre statut", "filtre priorite"],
+                        title="View tasks",
+                        description="A user sees a filterable dashboard.",
+                        acceptance_criteria=["visible list", "status filter", "priority filter"],
                     ),
                     UserStory(
-                        title="Gerer une tache",
-                        description="Un utilisateur cree, modifie ou supprime une tache.",
-                        acceptance_criteria=["creation", "edition", "suppression"],
+                        title="Manage a task",
+                        description="A user creates, updates, or deletes a task.",
+                        acceptance_criteria=["creation", "edition", "deletion"],
                     ),
                 ],
                 constraints=context.get("constraints", []),
                 modules=["dashboard", "task_detail", "task_form", "api", "quality"],
                 journeys=[
-                    "s identifier simplement",
-                    "consulter le dashboard",
-                    "creer une tache",
-                    "mettre a jour le statut",
+                    "identify with a simple username",
+                    "open the dashboard",
+                    "create a task",
+                    "update the status",
                 ],
-                assumptions=["Le mode demo privilegie un stockage SQLite local."],
+                assumptions=["Demo mode favors local SQLite storage."],
             )
         if schema is ProjectBlueprint:
             return ProjectBlueprint(
@@ -62,16 +62,19 @@ class MockLLMProvider(BaseLLMProvider):
                     },
                 ],
                 milestones=[
-                    "analyse du besoin",
-                    "conception architecture",
-                    "generation application",
-                    "validation finale",
+                    "requirement analysis",
+                    "architecture design",
+                    "application generation",
+                    "final validation",
                 ],
                 quality_gates=["ruff check", "ruff format --check", "pytest"],
             )
         if schema is ArchitectureDesign:
             return ArchitectureDesign(
-                overview="Architecture separee entre generateur Python et application generee.",
+                overview=(
+                    "Separated architecture between the Python generator "
+                    "and the generated application."
+                ),
                 backend_components=[
                     "FastAPI app",
                     "task router",
@@ -86,14 +89,14 @@ class MockLLMProvider(BaseLLMProvider):
                 ],
                 data_entities=["Task", "UserContext"],
                 decisions=[
-                    "LangGraph pour le workflow agentique",
-                    "Mermaid pour la documentation C4",
-                    "Provider abstrait pour Snowflake",
+                    "LangGraph for the agent workflow",
+                    "Mermaid for C4 documentation",
+                    "Abstract provider for Snowflake",
                 ],
                 c4_documents=[
                     C4Document(
                         name="context",
-                        description="Vue contexte",
+                        description="Context view",
                         mermaid="flowchart LR\n  User --> Generator\n  Generator --> App",
                         output_path="docs/c4-context.md",
                     ),
@@ -107,7 +110,7 @@ class MockLLMProvider(BaseLLMProvider):
                     "c4 docs generated",
                     "workspace scaffold generated",
                 ],
-                warnings=["Installer uv, pydantic, pytest et langgraph pour l'execution complete."],
+                warnings=["Install uv, pydantic, pytest, and langgraph for full execution."],
                 next_actions=[
                     "uv sync --all-extras",
                     ("python -m ai_delivery.cli run --input inputs/sample_spec.md"),

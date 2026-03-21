@@ -18,9 +18,9 @@ class QaDevopsAgent:
         state.reasoning_trace.append(
             ReasoningStep(
                 stage=self.name,
-                plan="Verifier l'outillage qualite et la CI.",
-                act="Enregistrement des controles qualitatifs principaux.",
-                reason="La demonstration doit montrer un pipeline de livraison complet.",
+                plan="Verify quality tooling and CI.",
+                act="Record the main quality checks.",
+                reason="The demo must show a complete delivery pipeline.",
             )
         )
         return state

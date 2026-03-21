@@ -2,7 +2,7 @@
 set -eu
 
 if ! command -v uv >/dev/null 2>&1; then
-  echo "uv n'est pas installé."
+  echo "uv is not installed."
   exit 1
 fi
 

@@ -1,35 +1,35 @@
-# Besoin métier
+# Business Need
 
-Nous voulons un prototype d'application web de gestion de demandes et tâches pour une équipe projet.
+We want a web application prototype for request and task management for a project team.
 
-## Utilisateurs
+## Users
 
-- chef de projet
-- contributeur
+- project manager
+- contributor
 
-## Parcours clés
+## Key Journeys
 
-1. un utilisateur s'identifie avec un nom ou un identifiant simple
-2. il visualise un tableau de bord avec filtres par statut et priorité
-3. il crée une nouvelle tâche
-4. il consulte le détail d'une tâche
-5. il met à jour le statut, la date d'échéance et la priorité
-6. il supprime une tâche si elle est obsolète
+1. a user identifies themselves with a simple name or identifier
+2. they view a dashboard with status and priority filters
+3. they create a new task
+4. they open a task detail page
+5. they update the status, due date, and priority
+6. they delete a task when it is obsolete
 
-## Contraintes
+## Constraints
 
-- démonstration rapide et lisible
-- architecture claire et maintenable
+- fast and readable demonstration
+- clear and maintainable architecture
 - backend Python
-- frontend moderne
+- modern frontend
 - documentation C4
-- traces de raisonnement exploitables en soutenance
-- personnalisation de marque client
+- reasoning traces usable during the presentation
+- client branding customization
 
-## Artefacts attendus
+## Expected Artifacts
 
-- plan projet
-- application générée
-- documentation d'architecture
+- project plan
+- generated application
+- architecture documentation
 - tests
 - CI/CD

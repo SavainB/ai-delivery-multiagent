@@ -1,64 +1,64 @@
 # AI Delivery Multi-Agent
 
-Référentiel hackathon pour un système multi-agents Python qui transforme une expression de besoin en artefacts principaux d'un pipeline de livraison logicielle.
+Hackathon repository for a Python multi-agent system that turns a requirement expression into the main artifacts of a software delivery pipeline.
 
-## Objectif
+## Goal
 
-Le dépôt contient le **générateur**.
-L'application démonstration de gestion de tâches est produite dans `workspace/generated_app/`.
+This repository contains the **generator**.
+The demo task-management application is produced in `workspace/generated_app/`.
 
-## Statut actuel
+## Current Status
 
-Le projet est aujourd'hui dans un état **démontrable** mais pas encore totalement finalisé pour un run réel Snowflake.
+The project is currently in a **demoable** state, but it is not yet fully finished for a real Snowflake-backed run.
 
-Ce qui fonctionne déjà :
+What already works:
 
-- orchestrateur multi-agents visible
-- API FastAPI du générateur
-- exécution interactive par étapes
-- production de plans, traces et documentation C4
-- génération d'une application cible dans `workspace/generated_app/`
-- outillage qualité du repo principal
+- visible multi-agent orchestrator
+- FastAPI generator API
+- interactive stage-by-stage execution
+- generation of plans, traces, and C4 documentation
+- generation of a target application in `workspace/generated_app/`
+- quality tooling for the main repository
 
-Ce qui reste à finaliser :
+What still needs to be finalized:
 
-- branchement du vrai provider Snowflake
-- persistance SQLite réelle dans l'app générée
-- branchement réel frontend <-> backend dans l'app générée
-- CI plus substantielle de l'application générée
+- real Snowflake provider integration
+- real SQLite persistence in the generated app
+- real frontend-to-backend wiring in the generated app
+- more substantial CI for the generated application
 
-## Capacités
+## Capabilities
 
-- analyse d'une spécification texte, markdown ou JSON
-- plan structuré et blueprint projet
-- documentation C4 Mermaid
-- génération d'une application FastAPI + React/Vite/Tailwind
-- génération de CI/CD et scripts de validation
-- export de traces `Plan / Act / Reason`
-- exécution en mode `dry-run`
-- exposition du générateur sous forme d'API
-- intervention utilisateur entre les étapes clés
+- analysis of a text, Markdown, or JSON specification
+- structured planning and project blueprint generation
+- Mermaid C4 documentation
+- generation of a FastAPI + React/Vite/Tailwind application
+- generation of CI/CD and validation scripts
+- export of `Plan / Act / Reason` traces
+- `dry-run` execution mode
+- generator exposed as an API
+- user intervention between key stages
 
 ## Stack
 
 - Python 3.11
-- LangGraph avec fallback séquentiel local
-- Pydantic via couche de compatibilité
-- uv pour la gestion de dépendances
-- Ruff pour lint + format
-- pytest pour les tests
-- GitHub Actions pour la CI
+- LangGraph with a local sequential fallback
+- Pydantic through a compatibility layer
+- uv for dependency management
+- Ruff for lint + format
+- pytest for tests
+- GitHub Actions for CI
 
-## Démarrage
+## Getting Started
 
-Avec l'environnement existant :
+With the existing environment:
 
 ```bash
 source .venv/bin/activate
 python -m ai_delivery.cli serve --host 127.0.0.1 --port 8000
 ```
 
-Avec `uv` :
+With `uv`:
 
 ```bash
 uv sync --all-extras
@@ -66,31 +66,31 @@ uv run pre-commit install
 uv run python -m ai_delivery.cli run --input inputs/sample_spec.md
 ```
 
-Mode démonstration sans génération réelle :
+Demo mode without real generation:
 
 ```bash
 uv run python -m ai_delivery.cli run --input inputs/sample_spec.md --dry-run
 ```
 
-API locale :
+Local API:
 
 ```bash
 uv run python -m ai_delivery.cli serve --host 127.0.0.1 --port 8000
 ```
 
-## Préparation Snowflake
+## Snowflake Preparation
 
-Le repo est préparé pour un futur provider Snowflake réel, mais ce provider n'est pas encore branché de bout en bout.
+The repository is prepared for a future real Snowflake provider, but that provider is not yet wired end to end.
 
-Préparation attendue :
+Expected setup:
 
-1. copier le fichier d'exemple :
+1. copy the example file:
 
 ```bash
 cp .env.example .env
 ```
 
-2. renseigner les variables Snowflake dans `.env` ou dans ton shell :
+2. fill the Snowflake variables in `.env` or in your shell:
 
 - `SNOWFLAKE_ACCOUNT`
 - `SNOWFLAKE_USER`
@@ -103,37 +103,37 @@ cp .env.example .env
 - `SNOWFLAKE_AUTHENTICATOR`
 - `SNOWFLAKE_CORTEX_MODEL`
 
-3. basculer le provider :
+3. switch the provider:
 
 ```bash
 export AI_DELIVERY_PROVIDER=snowflake
 ```
 
-4. implémenter le vrai branchement dans `src/ai_delivery/llm/snowflake_provider.py`
+4. implement the real connection in `src/ai_delivery/llm/snowflake_provider.py`
 
-Statut actuel :
+Current status:
 
-- la config Snowflake est préparée
-- le provider `snowflake` existe comme point d'extension
-- le comportement réel reste encore à implémenter
+- the Snowflake configuration surface is prepared
+- the `snowflake` provider exists as an extension point
+- the real runtime behavior still has to be implemented
 
-## Ce que tu pilotes réellement
+## What You Are Actually Driving
 
-L'API exposée sur `127.0.0.1:8000` pilote le **générateur**.
+The API exposed on `127.0.0.1:8000` drives the **generator**.
 
-Tu ne pilotes pas directement l'application ToDo finale.
+You are not directly driving the final ToDo application.
 
-Le flux réel est :
+The real flow is:
 
-1. tu démarres un run
-2. le système exécute un agent
-3. il persiste l'état courant
-4. il s'arrête si le mode interactif est activé
-5. tu consultes ou modifies l'état
-6. tu relances le run
-7. les artefacts finaux sont écrits dans `outputs/` et `workspace/generated_app/`
+1. you start a run
+2. the system executes an agent
+3. it persists the current state
+4. it pauses if interactive mode is enabled
+5. you inspect or modify the state
+6. you resume the run
+7. the final artifacts are written to `outputs/` and `workspace/generated_app/`
 
-## Commandes utiles
+## Useful Commands
 
 ```bash
 make install
@@ -147,23 +147,23 @@ make export-traces
 make clean
 ```
 
-## API et intervention utilisateur
+## API and User Intervention
 
-Le générateur expose une API FastAPI :
+The generator exposes a FastAPI API:
 
-- `POST /runs` pour démarrer un run
-- `GET /runs/{run_id}` pour relire un état
-- `POST /runs/{run_id}/resume` pour reprendre un run interactif
-- `POST /runs/{run_id}/interventions` pour modifier l'état avant reprise
+- `POST /runs` to start a run
+- `GET /runs/{run_id}` to inspect a state
+- `POST /runs/{run_id}/resume` to resume an interactive run
+- `POST /runs/{run_id}/interventions` to modify the state before resuming
 
-En mode `interactive`, le pipeline s'arrête après chaque agent. L'utilisateur peut intervenir sur :
+In `interactive` mode, the pipeline pauses after each agent. The user can intervene on:
 
 - `parsed_requirements`
 - `project_blueprint`
 - `architecture_design`
 - `run_metadata`
 
-Exemple de cycle minimal :
+Example of a minimal cycle:
 
 ```bash
 curl -X POST http://127.0.0.1:8000/runs \
@@ -177,31 +177,31 @@ curl -X POST http://127.0.0.1:8000/runs/<RUN_ID>/resume
 
 ## Structure
 
-- `src/ai_delivery/` : orchestrateur, services, agents et outils
-- `prompts/` : prompts versionnés hors du code Python
-- `configs/` : configuration globale, modèles, branding démo
-- `inputs/` : exemples d'entrée
-- `outputs/` : plans, traces, exports C4 et rapports
-- `workspace/generated_app/` : application générée
-- `docs/` : documentation architecture et ADR
+- `src/ai_delivery/` : orchestrator, services, agents, and tools
+- `prompts/` : versioned prompts outside Python code
+- `configs/` : global configuration, model settings, demo branding
+- `inputs/` : input examples
+- `outputs/` : plans, traces, C4 exports, and reports
+- `workspace/generated_app/` : generated application
+- `docs/` : architecture documentation and ADRs
 
-## Démo
+## Demo
 
-Le pipeline nominal est :
+The nominal pipeline is:
 
-1. lecture du besoin
-2. analyse structurée
-3. pause utilisateur optionnelle après `spec_analyst`
-4. définition d'architecture
-5. pause utilisateur optionnelle après `architect`
-6. génération des artefacts applicatifs
-7. pause utilisateur optionnelle après `developer`
-8. validation qualité / CI
-9. revue finale
+1. read the requirement
+2. produce the structured analysis
+3. optional user pause after `spec_analyst`
+4. define the architecture
+5. optional user pause after `architect`
+6. generate application artifacts
+7. optional user pause after `developer`
+8. perform quality / CI validation
+9. produce the final review
 
-Voir `docs/demo-script.md` pour la trame de soutenance.
+See `docs/demo-script.md` for the demo narrative.
 
-## Test manuel rapide
+## Quick Manual Test
 
 ```bash
 curl -X POST http://127.0.0.1:8000/runs \
@@ -209,35 +209,35 @@ curl -X POST http://127.0.0.1:8000/runs \
   -d '{"input_path":"inputs/sample_spec.md","interactive":true,"dry_run":true}'
 ```
 
-Puis :
+Then:
 
-1. récupérer le `run_id`
-2. consulter `GET /runs/{run_id}`
-3. intervenir si besoin via `POST /runs/{run_id}/interventions`
-4. reprendre via `POST /runs/{run_id}/resume`
+1. get the `run_id`
+2. inspect `GET /runs/{run_id}`
+3. intervene if needed with `POST /runs/{run_id}/interventions`
+4. resume with `POST /runs/{run_id}/resume`
 
-## Artefacts à inspecter
+## Artifacts to Inspect
 
-- `outputs/plans/` : blueprint projet
-- `outputs/traces/` : traces `Plan / Act / Reason`
-- `outputs/c4/` : exports C4
-- `outputs/runs/` : sessions et rapports
-- `workspace/generated_app/` : application générée
+- `outputs/plans/` : project blueprint
+- `outputs/traces/` : `Plan / Act / Reason` traces
+- `outputs/c4/` : C4 exports
+- `outputs/runs/` : sessions and reports
+- `workspace/generated_app/` : generated application
 
-## Limites connues
+## Known Limitations
 
-- le provider Snowflake réel n'est pas encore branché
-- le provider `snowflake` actuel retombe encore sur un comportement mock
-- l'application générée est démontrable mais pas encore totalement alignée avec la cible finale :
-  backend encore léger, frontend pas encore réellement branché au backend, SQLite non finalisé
+- the real Snowflake provider is not connected yet
+- the current `snowflake` provider still falls back to mock behavior
+- the generated application is demoable but not yet fully aligned with the target:
+  the backend is still light, the frontend is not yet truly connected to the backend, and SQLite is not finished
 
-## Source de configuration
+## Configuration Sources
 
-Aujourd'hui, la configuration du projet repose principalement sur :
+Today, the project configuration relies mainly on:
 
 - `pyproject.toml`
 - `configs/settings.yaml`
 - `configs/models.yaml`
-- variables d'environnement shell
+- shell environment variables
 
-Le fichier `.env.example` est prêt pour Snowflake, mais le chargement automatique de `.env` reste encore une tâche à finaliser.
+The `.env.example` file is ready for Snowflake, but automatic `.env` loading is still a remaining task.

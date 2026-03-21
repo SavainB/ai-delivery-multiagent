@@ -1,6 +1,6 @@
 # C4 Context
 
-Vue de contexte du generateur et de l'application cible.
+Context view of the generator and the target application.
 
 ```mermaid
 flowchart LR

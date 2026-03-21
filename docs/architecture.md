@@ -1,22 +1,22 @@
 # Architecture
 
-Le dépôt sépare explicitement :
+The repository explicitly separates:
 
-- le générateur multi-agents Python
-- l'application démonstration générée dans `workspace/generated_app/`
+- the Python multi-agent generator
+- the generated demo application in `workspace/generated_app/`
 
-## Vue d'ensemble
+## Overview
 
-Le système possède deux surfaces distinctes :
+The system has two distinct surfaces:
 
-1. une **API du générateur** qui pilote les runs
-2. une **application générée** écrite dans `workspace/generated_app/`
+1. a **generator API** that drives runs
+2. a **generated application** written in `workspace/generated_app/`
 
-L'API du générateur n'est donc pas l'application métier finale. Elle sert à orchestrer le pipeline logiciel.
+The generator API is therefore not the final business application. It orchestrates the software delivery pipeline.
 
-## Flux agentique
+## Agent Flow
 
-Le pipeline est orchestré par un flux simple :
+The pipeline is orchestrated through a simple flow:
 
 1. `spec_analyst`
 2. `architect`
@@ -24,28 +24,28 @@ Le pipeline est orchestré par un flux simple :
 4. `qa_devops`
 5. `reviewer`
 
-Chaque étape lit et enrichit un état central typé.
+Each stage reads and enriches a typed central state.
 
-Les artefacts intermédiaires sont persistés dans `outputs/`.
+Intermediate artifacts are persisted in `outputs/`.
 
-## API interactive
+## Interactive API
 
-Le générateur expose :
+The generator exposes:
 
 - `POST /runs`
 - `GET /runs/{run_id}`
 - `POST /runs/{run_id}/resume`
 - `POST /runs/{run_id}/interventions`
 
-Quand le mode interactif est activé, le pipeline se met en pause entre les étapes afin que l'utilisateur puisse :
+When interactive mode is enabled, the pipeline pauses between stages so the user can:
 
-- relire la compréhension du besoin
-- corriger un résumé ou un plan
-- ajuster certaines décisions avant la suite
+- review the system's understanding of the requirement
+- correct a summary or plan
+- adjust some decisions before the next stage
 
-## État central
+## Central State
 
-L'état partagé contient notamment :
+The shared state contains at least:
 
 - `raw_input`
 - `parsed_requirements`
@@ -58,25 +58,25 @@ L'état partagé contient notamment :
 - `run_metadata`
 - `errors`
 
-## Provider LLM
+## LLM Provider
 
-L'architecture prévoit une couche provider abstraite.
+The architecture includes an abstract provider layer.
 
-Statut actuel :
+Current status:
 
-- `mock` : opérationnel
-- `snowflake` : structure présente, intégration réelle encore à brancher
+- `mock`: operational
+- `snowflake`: structure present, real integration still to be connected
 
-## Application générée
+## Generated Application
 
-Le workspace généré contient actuellement :
+The generated workspace currently contains:
 
-- un backend FastAPI léger
-- un frontend React/Vite léger
-- des fichiers de base pour la démo
+- a lightweight FastAPI backend
+- a lightweight React/Vite frontend
+- base files for the demo
 
-Ce workspace doit encore être renforcé pour atteindre la cible finale :
+This workspace still needs to be strengthened to reach the final target:
 
-- vrai SQLite
-- vrai branchement frontend/backend
-- CI plus substantielle
+- real SQLite
+- real frontend/backend integration
+- more substantial CI

@@ -1,56 +1,56 @@
 # AGENTS.md
 
-## Références de travail
+## Working References
 
-Lire les fichiers dans cet ordre avant toute modification substantielle :
+Read files in this order before making any substantial change:
 
 1. [ai-delivery-multiagent/AGENT.md](AGENT.md)
 2. [ai-delivery-multiagent/TODO.md](TODO.md)
-3. le code réellement concerné
+3. the actual code relevant to the task
 
-## Rôle de chaque fichier
+## Role of Each File
 
 - `AGENT.md`
-  Contrat de projet de haut niveau. Ce fichier capture les décisions d'architecture, les contraintes IBM, la structure cible, les objectifs de démo et les principes à préserver.
+  High-level project contract. This file captures the architecture decisions, IBM constraints, target structure, demo goals, and principles that must be preserved.
 - `TODO.md`
-  Backlog vivant du projet. Ce fichier capture ce qu'il reste à faire, l'ordre recommandé, les priorités, les tâches bloquées et l'état d'avancement.
+  Living project backlog. This file captures what remains to be done, the recommended order, priorities, blocked tasks, and current progress.
 
-## Convention de maintenance
+## Maintenance Convention
 
-Pour les prochaines sessions Codex :
+For future Codex sessions:
 
-- ne pas utiliser `AGENTS.md` comme backlog détaillé
-- ne pas dupliquer toute l'architecture dans `TODO.md`
-- garder `AGENT.md` relativement stable
-- mettre à jour `TODO.md` dès qu'une tâche importante est terminée, ajoutée, re-priorisée ou bloquée
+- do not use `AGENTS.md` as a detailed backlog
+- do not duplicate the full architecture in `TODO.md`
+- keep `AGENT.md` relatively stable
+- update `TODO.md` whenever an important task is completed, added, reprioritized, or blocked
 
-## Quand modifier `AGENT.md`
+## When to Modify `AGENT.md`
 
-Modifier `AGENT.md` seulement si l'un des points suivants change réellement :
+Modify `AGENT.md` only if one of the following actually changes:
 
-- architecture cible
-- rôle des agents
-- contraintes non négociables
-- structure attendue du repo
-- stratégie produit ou démo
+- target architecture
+- agent roles
+- non-negotiable constraints
+- expected repository structure
+- product or demo strategy
 
-## Quand modifier `TODO.md`
+## When to Modify `TODO.md`
 
-Modifier `TODO.md` quand :
+Modify `TODO.md` when:
 
-- une tâche est terminée
-- une tâche devient bloquante
-- une nouvelle sous-tâche apparaît
-- une priorité change
-- une estimation doit être révisée
+- a task is completed
+- a task becomes blocked
+- a new subtask appears
+- a priority changes
+- an estimate needs to be revised
 
-## Règle pratique
+## Practical Rule
 
-Si un futur agent doit faire avancer le projet :
+If a future agent needs to move the project forward:
 
-1. lire `AGENT.md`
-2. lire `TODO.md`
-3. choisir la prochaine tâche `P0` ou `P1`
-4. implémenter
-5. mettre à jour `TODO.md`
-6. ne modifier `AGENT.md` que si une décision de fond change
+1. read `AGENT.md`
+2. read `TODO.md`
+3. choose the next `P0` or `P1` task
+4. implement it
+5. update `TODO.md`
+6. modify `AGENT.md` only if a core decision changes

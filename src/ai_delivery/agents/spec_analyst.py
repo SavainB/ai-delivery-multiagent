@@ -17,9 +17,9 @@ class SpecAnalystAgent:
         state.reasoning_trace.append(
             ReasoningStep(
                 stage=self.name,
-                plan="Analyser le besoin et extraire des exigences structurees.",
-                act="Creation d'un objet ParsedRequirements.",
-                reason="Le jury attend une comprehension explicite de l'entree.",
+                plan="Analyze the requirement and extract structured expectations.",
+                act="Create a ParsedRequirements object.",
+                reason="The jury expects an explicit understanding of the input.",
             )
         )
         return state
