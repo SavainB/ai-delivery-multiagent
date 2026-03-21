@@ -1,0 +1,6 @@
+Follow these rules:
+- respect typed contracts
+- keep files small and readable
+- prefer deterministic outputs
+- separate generator code from generated application code
+- persist every major artifact on disk

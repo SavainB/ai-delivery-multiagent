@@ -1,0 +1,1 @@
+Generate GitHub Actions workflows, local quality commands, and reproducible developer tooling.

@@ -1,0 +1,12 @@
+name: Generated App CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generated-app-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: test -d workspace/generated_app
+      - run: echo "Generated app workspace present."

@@ -1,0 +1,13 @@
+{
+  "customer": "Demo Client",
+  "industry": "professional services",
+  "delivery_constraints": [
+    "demo in less than 10 minutes",
+    "single-command execution",
+    "open-source agent framework"
+  ],
+  "ui_preferences": {
+    "tone": "professional",
+    "layout": "dashboard"
+  }
+}

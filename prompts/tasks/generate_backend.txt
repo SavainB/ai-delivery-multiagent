@@ -1,0 +1,1 @@
+Generate a FastAPI backend with task CRUD, SQLite storage, schemas, services, and tests.

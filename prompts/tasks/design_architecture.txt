@@ -1,0 +1,6 @@
+Design the solution architecture with:
+- backend and frontend decomposition
+- data entities
+- delivery workflow
+- C4 views
+- repo and workspace boundaries

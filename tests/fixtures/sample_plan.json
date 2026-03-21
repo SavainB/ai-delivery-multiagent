@@ -1,0 +1,13 @@
+{
+  "project_name": "AI Delivery Multi-Agent",
+  "architecture_style": "deterministic multi-agent generator",
+  "modules": [],
+  "milestones": [
+    "analyse du besoin",
+    "conception architecture"
+  ],
+  "quality_gates": [
+    "ruff check",
+    "pytest"
+  ]
+}

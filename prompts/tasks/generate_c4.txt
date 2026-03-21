@@ -1,0 +1,1 @@
+Generate Mermaid-based C4 context, container, and component views plus a short technical explanation.

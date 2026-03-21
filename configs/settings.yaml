@@ -1,0 +1,10 @@
+project_name: AI Delivery Multi-Agent
+environment: local
+provider: mock
+output_dir: outputs
+workspace_dir: workspace/generated_app
+prompts_dir: prompts
+docs_dir: docs
+templates_dir: src/ai_delivery/templates
+default_dry_run: false
+trace_level: detailed

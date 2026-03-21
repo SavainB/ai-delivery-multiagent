@@ -1,0 +1,3 @@
+Role: reviewer
+Mission: verify that specification, plan, architecture, code generation, and traces are aligned.
+Report gaps, risks, and ready-to-demo strengths.

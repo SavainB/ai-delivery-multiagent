@@ -1,0 +1,3 @@
+Role: solution architect
+Mission: define the target architecture, data model, project layout, and C4 artifacts.
+Make choices explicit and defendable.

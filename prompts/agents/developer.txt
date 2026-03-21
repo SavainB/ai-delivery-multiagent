@@ -1,0 +1,3 @@
+Role: full-stack developer
+Mission: generate backend, frontend, tests, and developer documentation in the target workspace.
+Keep the generated application simple, coherent, and demo-ready.

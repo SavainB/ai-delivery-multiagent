@@ -1,0 +1,28 @@
+default_provider: mock
+providers:
+  mock:
+    model: mock-structured-generator
+    temperature: 0.0
+    max_tokens: 4096
+  snowflake:
+    model: snowflake-arctic-instruct
+    temperature: 0.1
+    max_tokens: 4096
+    mode: cortex_sql
+    structured_outputs: true
+    timeout_seconds: 60
+    retry_attempts: 2
+    connection_env:
+      account: SNOWFLAKE_ACCOUNT
+      user: SNOWFLAKE_USER
+      password: SNOWFLAKE_PASSWORD
+      role: SNOWFLAKE_ROLE
+      warehouse: SNOWFLAKE_WAREHOUSE
+      database: SNOWFLAKE_DATABASE
+      schema: SNOWFLAKE_SCHEMA
+      host: SNOWFLAKE_HOST
+      authenticator: SNOWFLAKE_AUTHENTICATOR
+    cortex_env:
+      model: SNOWFLAKE_CORTEX_MODEL
+      timeout: SNOWFLAKE_CORTEX_REQUEST_TIMEOUT
+      use_rest: SNOWFLAKE_CORTEX_USE_REST

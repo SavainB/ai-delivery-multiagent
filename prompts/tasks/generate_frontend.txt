@@ -1,0 +1,1 @@
+Generate a React + Vite + Tailwind frontend with dashboard, task list, task detail, and task form views.
