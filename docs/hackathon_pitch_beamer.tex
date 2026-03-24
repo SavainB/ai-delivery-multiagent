@@ -18,11 +18,21 @@
 \definecolor{Soft}{HTML}{F4D35E}
 \setbeamercolor{structure}{fg=Primary}
 \setbeamercolor{title}{fg=Primary}
-\setbeamercolor{frametitle}{fg=Primary}
+\setbeamercolor{frametitle}{fg=white,bg=Primary}
 \setbeamercolor{block title}{bg=Primary!12, fg=Primary}
 \setbeamercolor{block body}{bg=Primary!4, fg=black}
 \setbeamercolor{itemize item}{fg=Primary}
 \setbeamercolor{itemize subitem}{fg=Primary}
+\setbeamertemplate{headline}{}
+
+\setbeamertemplate{frametitle}{
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=3.2ex,dp=1.2ex,leftskip=1em,rightskip=1em]{frametitle}
+    \usebeamerfont{frametitle}\insertframetitle
+  \end{beamercolorbox}
+}
+
+\setbeamertemplate{navigation symbols}{}
 
 \lstset{
   basicstyle=\ttfamily\scriptsize,
@@ -35,7 +45,7 @@
   showstringspaces=false
 }
 
-\title[AI Delivery Multi-Agent]{AI Delivery Multi-Agent\\\large Du besoin aux artefacts software en quelques minutes}
+\title[Plateforme IA multi-agents]{Plateforme IA de livraison multi-agents\\\large Du besoin aux artefacts logiciels en quelques minutes}
 \subtitle{Pitch Hackathon -- 12 min + 8 min Q\&A}
 \author{Équipe 24\\Ethan Brosselard \and Savain Blaneus \and Rayane Malik}
 \institute{Challenge IBM}
@@ -44,11 +54,37 @@
 \begin{document}
 
 % 1) Titre
-\begin{frame}
-  \titlepage
+\section{Introduction}
+\begin{frame}{Plateforme IA de livraison multi-agents}
+  \vspace{0.4cm}
+  \begin{center}
+    {\Large\textbf{Du besoin client au prototype démontrable}}\\[0.3cm]
+    {\normalsize Pitch hackathon orienté jury entreprise}\\[0.8cm]
+  \end{center}
+
+  \begin{block}{Ce que vous allez voir}
+  \begin{itemize}
+    \item Un problème réel de delivery logiciel
+    \item Une solution multi-agents concrète
+    \item Une démo reproductible et traçable
+  \end{itemize}
+  \end{block}
+
+  \vfill
+  \begin{center}
+    {\small Équipe 24 -- Ethan Brosselard, Savain Blaneus, Rayane Malik}\\
+    {\small Challenge IBM -- Mars 2026}
+  \end{center}
+\end{frame}
+
+% Sommaire
+\section{Sommaire}
+\begin{frame}{Sommaire\\Plan du pitch}
+\tableofcontents
 \end{frame}
 
 % 2) Accroche
+\section{Contexte et problème}
 \begin{frame}{Imaginez cette scène...}
 \begin{columns}[T]
 \column{0.62\textwidth}
@@ -79,28 +115,38 @@ C'est livrer vite \textbf{sans perdre la cohérence} ni la confiance du client.
 
 % 3) Problème
 \begin{frame}{Le problème concret}
-\begin{block}{Cas typique : application de gestion de tâches}
-\begin{itemize}
-  \item Le métier donne un besoin en texte/Markdown.
-  \item L'équipe doit livrer \textbf{plan + architecture + app + tests + CI}.
-  \item Chaque livrable est produit séparément, souvent sans cohérence globale.
-\end{itemize}
+\begin{columns}[T]
+\column{0.52\textwidth}
+\begin{block}{Situation de départ}
+\textbf{Besoin métier} non structuré\\
+$\Downarrow$\\
+\textbf{Livrables attendus} en 24h
 \end{block}
-\vspace{0.2cm}
-\begin{itemize}
-  \item Multiplication des allers-retours.
-  \item Risque de dérive entre intention métier et code.
-  \item Difficile à auditer pour un contexte entreprise.
-\end{itemize}
+\vspace{0.15cm}
+\begin{alertblock}{Friction}
+Spécification \(\neq\) Architecture \(\neq\) Code
+\end{alertblock}
+\column{0.48\textwidth}
+\begin{tikzpicture}[node distance=4.5mm, every node/.style={font=\scriptsize}]
+\node[draw,rounded corners,fill=red!10,text width=3.6cm,align=center,minimum height=0.8cm] (m) {MÉTIER\\brief + urgences};
+\node[draw,rounded corners,fill=red!10,below=of m,text width=3.6cm,align=center,minimum height=0.8cm] (a) {ARCHI\\décisions tardives};
+\node[draw,rounded corners,fill=red!10,below=of a,text width=3.6cm,align=center,minimum height=0.8cm] (c) {CODE\\hétérogène};
+\node[draw,rounded corners,fill=Accent!20,below=of c,text width=3.6cm,align=center,minimum height=0.9cm] (r) {RÉSULTAT\\démo fragile};
+\draw[-{Latex[length=2mm]},thick] (m)--(a);
+\draw[-{Latex[length=2mm]},thick] (a)--(c);
+\draw[-{Latex[length=2mm]},thick] (c)--(r);
+\end{tikzpicture}
+\end{columns}
 \end{frame}
 
 % 4) Enjeux
+\section{Enjeux}
 \begin{frame}{Pourquoi c'est critique ?}
 \begin{columns}[T]
 \column{0.5\textwidth}
 \textbf{Enjeux business}
 \begin{itemize}
-  \item Time-to-prototype
+  \item Délai de prototypage
   \item Coût de coordination
   \item Qualité perçue en démo
 \end{itemize}
@@ -119,8 +165,9 @@ Démontrer une solution multi-agents \textbf{défendable en entreprise} : traça
 \end{frame}
 
 % 5) Solution proposée
+\section{Solution}
 \begin{frame}{Notre solution}
-\begin{block}{AI Delivery Multi-Agent}
+\begin{block}{Plateforme IA de livraison multi-agents}
 Un \textbf{générateur Python multi-agents} qui transforme une exigence en artefacts clés d'une chaîne logicielle.
 \end{block}
 \vspace{0.2cm}
@@ -136,6 +183,7 @@ Un \textbf{générateur Python multi-agents} qui transforme une exigence en arte
 \end{frame}
 
 % 6) Idée principale
+\section{Système et architecture}
 \begin{frame}{Idée principale du système}
 \begin{center}
 \begin{tikzpicture}[node distance=6mm, every node/.style={font=\small}]
@@ -176,25 +224,33 @@ Un \textbf{générateur Python multi-agents} qui transforme une exigence en arte
 \end{frame}
 
 % 8) Fonctionnement global
+\section{Fonctionnement}
 \begin{frame}{Fonctionnement global (pipeline)}
-\begin{enumerate}
-  \item Ingestion et normalisation des exigences.
-  \item Plan projet et design architecture.
-  \item Génération de l'application (backend/frontend/templates).
-  \item Génération C4 + CI/CD + validations.
-  \item Reporting final + traces de raisonnement.
-\end{enumerate}
+\begin{center}
+\begin{tikzpicture}[node distance=6mm, every node/.style={font=\scriptsize}]
+\node[draw,rounded corners,fill=Primary!10,text width=2.2cm,align=center,minimum height=0.9cm] (s1) {1. Analyse\\besoin};
+\node[draw,rounded corners,fill=Primary!10,right=5mm of s1,text width=2.2cm,align=center,minimum height=0.9cm] (s2) {2. Plan\\+ Archi};
+\node[draw,rounded corners,fill=Primary!10,right=5mm of s2,text width=2.2cm,align=center,minimum height=0.9cm] (s3) {3. Génération\\App};
+\node[draw,rounded corners,fill=Primary!10,right=5mm of s3,text width=2.2cm,align=center,minimum height=0.9cm] (s4) {4. C4 + CI\\+ Tests};
+\node[draw,rounded corners,fill=Accent!20,right=5mm of s4,text width=2.2cm,align=center,minimum height=0.9cm] (s5) {5. Rapport\\+ Traces};
+\draw[-{Latex[length=2mm]},thick] (s1)--(s2);
+\draw[-{Latex[length=2mm]},thick] (s2)--(s3);
+\draw[-{Latex[length=2mm]},thick] (s3)--(s4);
+\draw[-{Latex[length=2mm]},thick] (s4)--(s5);
+\end{tikzpicture}
+\end{center}
 \vspace{0.2cm}
-\begin{block}{Contrôle humain}
-Mode interactif : \textbf{pause, intervention, reprise} entre étapes critiques.
-\end{block}
+\begin{alertblock}{Supervision humaine}
+\textbf{Pause $\rightarrow$ intervention $\rightarrow$ reprise} aux points critiques.
+\end{alertblock}
 \end{frame}
 
 % 9) Démonstration concrète
+\section{Démonstration}
 \begin{frame}{Démonstration (ce que voit le jury)}
 \begin{columns}[T]
 \column{0.50\textwidth}
-\textbf{Walkthrough live en 90 secondes}
+\textbf{Parcours live (90 s)}
 \vspace{0.15cm}
 \begin{enumerate}
   \item \textbf{On lance} le run\\
@@ -205,7 +261,7 @@ Mode interactif : \textbf{pause, intervention, reprise} entre étapes critiques.
   \scriptsize{\texttt{workspace/generated\_app} + \texttt{outputs/*}}
 \end{enumerate}
 \vspace{0.15cm}
-\textbf{Interaction possible :}
+\textbf{Pilotage API}
 \begin{itemize}
   \item \scriptsize \texttt{POST /runs}
   \item \scriptsize \texttt{POST /runs/\{id\}/resume}
@@ -213,10 +269,10 @@ Mode interactif : \textbf{pause, intervention, reprise} entre étapes critiques.
 \end{itemize}
 \column{0.50\textwidth}
 \begin{tikzpicture}[node distance=5.5mm, every node/.style={font=\scriptsize}]
-\node[draw,rounded corners,fill=Primary!10,text width=3.8cm,minimum height=0.9cm,align=center] (n1) {1) INPUT\\Spec client};
-\node[draw,rounded corners,fill=Primary!10,right=9mm of n1,text width=3.8cm,minimum height=0.9cm,align=center] (n2) {2) RUN\\Pipeline multi-agents};
-\node[draw,rounded corners,fill=Primary!10,below=9mm of n2,text width=3.8cm,minimum height=0.9cm,align=center] (n3) {3) CONTRÔLE\\Pause / intervention};
-\node[draw,rounded corners,fill=Accent!20,left=9mm of n3,text width=3.8cm,minimum height=0.9cm,align=center] (n4) {4) OUTPUT\\App + C4 + traces};
+\node[draw,rounded corners,fill=Primary!10,text width=3.8cm,minimum height=0.9cm,align=center] (n1) {1) ENTRÉE\\spécification};
+\node[draw,rounded corners,fill=Primary!10,right=9mm of n1,text width=3.8cm,minimum height=0.9cm,align=center] (n2) {2) EXÉCUTION\\agents spécialisés};
+\node[draw,rounded corners,fill=Primary!10,below=9mm of n2,text width=3.8cm,minimum height=0.9cm,align=center] (n3) {3) CONTRÔLE\\pause / intervention};
+\node[draw,rounded corners,fill=Accent!20,left=9mm of n3,text width=3.8cm,minimum height=0.9cm,align=center] (n4) {4) SORTIES\\app + C4 + traces};
 \draw[-{Latex[length=2mm]},thick] (n1)--(n2);
 \draw[-{Latex[length=2mm]},thick] (n2)--(n3);
 \draw[-{Latex[length=2mm]},thick] (n3)--(n4);
@@ -226,21 +282,24 @@ Mode interactif : \textbf{pause, intervention, reprise} entre étapes critiques.
 \end{frame}
 
 % 10) Résultats
+\section{Résultats}
 \begin{frame}{Résultats obtenus}
-\begin{itemize}
-  \item Orchestrateur multi-agents fonctionnel (CLI + API).
-  \item Génération de l'app de démonstration dans \texttt{workspace/generated\_app/}.
-  \item Production de documents C4 (context, container, component).
-  \item Export des traces de raisonnement et plans d'exécution.
-  \item Suite de tests unitaires + intégration pour sécuriser la démo.
-\end{itemize}
-\vspace{0.2cm}
-\begin{block}{Impact immédiat}
-Une équipe passe d'une spécification brute à une base de projet cohérente en un run.
+\begin{center}
+\begin{tikzpicture}[node distance=6mm, every node/.style={font=\scriptsize}]
+\node[draw,rounded corners,fill=Primary!10,text width=2.6cm,minimum height=1.1cm,align=center] (k1) {CLI + API\\opérationnels};
+\node[draw,rounded corners,fill=Primary!10,right=6mm of k1,text width=2.6cm,minimum height=1.1cm,align=center] (k2) {App générée\\workspace/generated\_app};
+\node[draw,rounded corners,fill=Primary!10,right=6mm of k2,text width=2.6cm,minimum height=1.1cm,align=center] (k3) {Docs C4\\context/container/component};
+\node[draw,rounded corners,fill=Primary!10,right=6mm of k3,text width=2.6cm,minimum height=1.1cm,align=center] (k4) {Traces + plans\\auditables};
+\end{tikzpicture}
+\end{center}
+\vspace{0.25cm}
+\begin{block}{Message clé}
+\textbf{Un run = une base projet cohérente, démontrable et industrialisable.}
 \end{block}
 \end{frame}
 
 % 11) Valeur ajoutée
+\section{Valeur}
 \begin{frame}{Valeur ajoutée du projet}
 \begin{columns}[T]
 \column{0.5\textwidth}
@@ -267,24 +326,34 @@ Une équipe passe d'une spécification brute à une base de projet cohérente en
 \end{frame}
 
 % 12) Crédibilité/faisabilité
+\section{Crédibilité}
 \begin{frame}{Crédibilité et faisabilité}
+\begin{columns}[T]
+\column{0.5\textwidth}
+\textbf{Pourquoi c'est crédible ?}
 \begin{itemize}
-  \item Choix techniques pragmatiques et éprouvés.
-  \item Découplage provider LLM: mock local \& extension Snowflake.
-  \item Gouvernance par contrats de données typés.
-  \item Exécution déterministe, simple à expliquer au jury.
+  \item Stack éprouvée
+  \item Flux déterministe
+  \item Contrats typés
+  \item Traçabilité native
 \end{itemize}
-\vspace{0.25cm}
-\begin{block}{Pourquoi ça marche ?}
+\column{0.5\textwidth}
+\textbf{Pourquoi c'est faisable ?}
 \begin{itemize}
-  \item Chaque agent a un périmètre clair.
-  \item Les artefacts sont écrits à des emplacements standardisés.
-  \item Les tests couvrent les unités et les scénarios d'intégration.
+  \item Rôles d'agents clairs
+  \item Templates versionnés
+  \item CLI/API déjà utilisables
+  \item Extensible (Snowflake)
 \end{itemize}
-\end{block}
+\end{columns}
+\vspace{0.2cm}
+\begin{alertblock}{Preuve de sérieux}
+Le système produit des artefacts vérifiables, pas seulement un discours.
+\end{alertblock}
 \end{frame}
 
 % 13) Limites
+\section{Limites}
 \begin{frame}{Limites actuelles (assumées)}
 \begin{itemize}
   \item Intégration Snowflake réelle encore à finaliser.
@@ -299,6 +368,7 @@ Nous préférons expliciter les limites plutôt que sur-promettre.
 \end{frame}
 
 % 14) Améliorations futures
+\section{Roadmap}
 \begin{frame}{Roadmap d'amélioration}
 \begin{columns}[T]
 \column{0.33\textwidth}
@@ -327,6 +397,7 @@ Passer d'un \textbf{générateur de démo fiable} à un \textbf{accélérateur d
 \end{frame}
 
 % 15) Valeur entreprise
+\section{Valeur entreprise}
 \begin{frame}{Pourquoi ce projet a de la valeur pour une entreprise ?}
 \begin{itemize}
   \item Réduction du time-to-prototype
@@ -339,6 +410,7 @@ Passer d'un \textbf{générateur de démo fiable} à un \textbf{accélérateur d
 \end{frame}
 
 % 16) Conclusion mémorable
+\section{Conclusion}
 \begin{frame}{Conclusion -- message clé}
 \begin{center}
 {\Large \textbf{Demain matin, le client ne voit pas une promesse.\\Il voit une solution qui tourne.}}
@@ -352,12 +424,13 @@ Passer d'un \textbf{générateur de démo fiable} à un \textbf{accélérateur d
 \vspace{0.3cm}
 \begin{center}
 \fcolorbox{Primary}{Primary!8}{\parbox{0.83\linewidth}{\centering
-\textbf{AI Delivery Multi-Agent} = \\textit{accélérer sans perdre le contrôle, et convaincre plus vite.}
+\textbf{Plateforme IA de livraison multi-agents} = \\textit{accélérer sans perdre le contrôle, et convaincre plus vite.}
 }}
 \end{center}
 \end{frame}
 
 % 17) Q&A
+\section{Questions}
 \begin{frame}[standout]
 \centering
 {\Huge Questions ?}\\[0.4cm]
