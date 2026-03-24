@@ -1,0 +1,203 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  pdftitle={AI Delivery Multi-Agent - Rapport Jury},
+  pdfauthor={Equipe 24},
+  pdfsubject={Rapport structure en 4 parties}
+}
+
+\setstretch{1.08}
+\setlist[itemize]{nosep,topsep=2pt,leftmargin=1.2em}
+
+\begin{document}
+
+% =====================
+% PAGE DE GARDE (Page 1)
+% =====================
+\begin{titlepage}
+  \centering
+  \vspace*{0.4cm}
+
+  % Logo principal (a remplacer plus tard par image-1)
+  \IfFileExists{image-1.png}
+    {\includegraphics[width=0.42\textwidth]{image-1.png}}
+    {\IfFileExists{image-1.jpg}
+      {\includegraphics[width=0.42\textwidth]{image-1.jpg}}
+      {\fbox{\parbox[c][2.5cm][c]{0.42\textwidth}{\centering image-1}}}}
+
+  \vspace{1.0cm}
+  {\large \textbf{Challenge propose par :}}\\[0.25cm]
+  {\Large \textbf{IBM -- Systeme multi-agents pour generer du software automatiquement}}\\[1.0cm]
+
+  {\large \textbf{Equipe :}}\\[0.35cm]
+  \begin{minipage}{0.6\textwidth}
+    \begin{itemize}
+      \item Ethan Brosselard
+      \item Savain Blaneus
+      \item Rayane Malik
+    \end{itemize}
+  \end{minipage}\\[0.4cm]
+  {\large \textbf{Equipe 24}}\\[0.8cm]
+
+  {\large \textbf{Lien Git :} \href{https://github.com/ZayKox/ai-delivery-multiagent}{https://github.com/ZayKox/ai-delivery-multiagent}}\\[0.9cm]
+  {\large Du 23 au 27 mars 2026}
+
+  \vfill
+  % Logos bas de page (a remplacer plus tard par image-2, image-3, image-4)
+  \begin{minipage}{0.31\textwidth}
+    \centering
+    \IfFileExists{image-2.png}
+      {\includegraphics[width=0.95\linewidth]{image-2.png}}
+      {\IfFileExists{image-2.jpg}
+        {\includegraphics[width=0.95\linewidth]{image-2.jpg}}
+        {\fbox{\parbox[c][1.8cm][c]{0.95\linewidth}{\centering image-2}}}}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.31\textwidth}
+    \centering
+    \IfFileExists{image-3.png}
+      {\includegraphics[width=0.95\linewidth]{image-3.png}}
+      {\IfFileExists{image-3.jpg}
+        {\includegraphics[width=0.95\linewidth]{image-3.jpg}}
+        {\fbox{\parbox[c][1.8cm][c]{0.95\linewidth}{\centering image-3}}}}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.31\textwidth}
+    \centering
+    \IfFileExists{image-4.png}
+      {\includegraphics[width=0.95\linewidth]{image-4.png}}
+      {\IfFileExists{image-4.jpg}
+        {\includegraphics[width=0.95\linewidth]{image-4.jpg}}
+        {\fbox{\parbox[c][1.8cm][c]{0.95\linewidth}{\centering image-4}}}}
+  \end{minipage}
+\end{titlepage}
+
+% =====================
+% PARTIE 1 (max 1 page)
+% =====================
+\section{Pertinence et innovation}
+\subsection*{Analyse du besoin et enjeux sectoriels}
+Nous adressons un besoin frequent dans les equipes produit : accelerer le passage de la specification a des artefacts exploitables (plan, architecture, code, tests, documentation), tout en conservant la tracabilite des decisions.
+
+Dans de nombreux contextes operationnels, les difficultes viennent de la fragmentation du flux (analyse, conception, implementation et validation traitees dans des outils differents). Notre projet vise a reduire cette rupture en centralisant le processus dans un orchestrateur unique.
+
+\subsection*{Pertinence de la solution proposee}
+Notre solution prend en entree une expression de besoin (texte, markdown, JSON) et produit automatiquement les livrables essentiels d'une chaine de delivery. Le choix d'un pipeline multi-agents specialise permet de separer les responsabilites et de rendre chaque etape explicable.
+
+\subsection*{Innovation et originalite}
+L'innovation principale n'est pas un simple generateur de code :
+\begin{itemize}
+  \item orchestration deterministe de plusieurs roles IA,
+  \item etat partage type pour assurer la coherence inter-etapes,
+  \item mode interactif (pause/intervention/reprise) pour garder un pilotage humain,
+  \item production simultanee de code \textit{et} de documentation C4 et traces de raisonnement.
+\end{itemize}
+
+\subsection*{Anticipation des defis}
+Nous avons explicitement anticipe les risques de derive d'autonomie, d'incoherence entre artefacts, et de manque d'auditabilite. C'est pourquoi nous avons privilegie la sobriete d'architecture, la validation par contrats et la persistance de traces.
+
+% =====================
+% PARTIE 2 (max 1 page)
+% =====================
+\section{Qualite technique et faisabilite}
+\subsection*{Choix techniques et justification}
+Les choix techniques suivent une logique de robustesse et de faisabilite :
+\begin{itemize}
+  \item \textbf{Python 3.11} pour la productivite et la maturite ecosysteme,
+  \item \textbf{LangGraph} avec fallback sequentiel pour garantir l'execution meme en environnement contraint,
+  \item \textbf{Pydantic} pour valider les contrats de donnees,
+  \item \textbf{FastAPI} pour exposer un pilotage API clair,
+  \item \textbf{uv/ruff/pytest} pour standardiser qualite et maintenance.
+\end{itemize}
+
+\subsection*{Clarte methodologique et qualite logicielle}
+L'architecture suit un flux simple et lisible :
+\texttt{spec\_analyst $\rightarrow$ architect $\rightarrow$ developer $\rightarrow$ qa\_devops $\rightarrow$ reviewer}.
+Chaque stage met a jour un etat central type, ce qui facilite le debogage, la verification de coherence et la reprise de session.
+
+Nous avons structure le depot pour distinguer le \textbf{generateur} de l'\textbf{application generee} (\texttt{workspace/generated\_app/}), ce qui renforce la maintenabilite et la lisibilite pour un jury technique.
+
+\subsection*{Faisabilite operationnelle et passage a l'echelle}
+La faisabilite est demontree en mode demo avec generation de plans, C4, code, traces et rapports. Le design est extensible : la couche provider LLM est abstraite, ce qui permet de brancher un provider entreprise (Snowflake) sans refonte globale.
+
+A l'echelle, les points a renforcer sont identifies : robustesse du provider runtime, CI du code genere, et durcissement de l'integration frontend/backend.
+
+% =====================
+% PARTIE 3 (max 1 page)
+% =====================
+\section{Impact, risques et responsabilite}
+\subsection*{Impacts attendus}
+Les impacts positifs attendus sont :
+\begin{itemize}
+  \item reduction du temps entre specification et prototype executable,
+  \item meilleure standardisation des livrables techniques,
+  \item meilleure auditabilite grace aux traces et rapports,
+  \item meilleure capacite de demonstration pour des projets innovants.
+\end{itemize}
+
+\subsection*{Principaux risques identifies}
+\begin{itemize}
+  \item risque d'erreurs semantiques dans l'interpretation initiale du besoin,
+  \item risque d'ecart entre code genere et attentes metier,
+  \item risque de dependance a des integrations provider non finalisees,
+  \item risque de sur-confiance utilisateur en cas de supervision insuffisante.
+\end{itemize}
+
+\subsection*{Mesures de mitigation}
+Nous mettons en oeuvre des mesures concretes :
+\begin{itemize}
+  \item checkpoints d'intervention humaine entre stages,
+  \item contrats de donnees types (validation stricte),
+  \item separation claire des couches et responsabilites,
+  \item persistance des sessions/runs pour audit et reprise,
+  \item tests unitaires et integration pour non-regression.
+\end{itemize}
+
+\subsection*{Cadre de responsabilite et limites}
+Le systeme est concu comme un assistant de delivery, pas un substitut complet a la validation humaine. Notre position est explicite : la decision finale reste humaine, en particulier sur l'architecture cible, les choix de production et les enjeux de conformite secteur.
+
+% =====================
+% PARTIE 4 (max 1 page)
+% =====================
+\section{Conclusion et recommandations}
+\subsection*{Synthese des apports}
+Notre projet demontre qu'un orchestrateur multi-agents peut produire, de maniere structuree, les artefacts essentiels d'une chaine de delivery logicielle : analyse, plan, architecture, generation applicative, validation et reporting.
+
+Les forces principales sont la lisibilite du flux, le determinisme de l'orchestration, la tracabilite des sorties et l'integration d'un mode interactif qui permet d'allier automatisation et controle humain.
+
+\subsection*{Limites principales}
+Les limites actuelles sont connues et assumees :
+\begin{itemize}
+  \item integration Snowflake runtime a finaliser,
+  \item persistance backend generee a renforcer,
+  \item integration frontend/backend a durcir,
+  \item pipeline CI de l'application generee a industrialiser.
+\end{itemize}
+
+\subsection*{Recommandations concretes}
+\begin{itemize}
+  \item finaliser la connexion provider et ses tests d'integration,
+  \item imposer une validation CI complete sur le code genere,
+  \item renforcer la gouvernance des prompts (versionning + revues),
+  \item ajouter des metriques de qualite de generation (precision, stabilite, taux de reprise).
+\end{itemize}
+
+\subsection*{Perspectives court et moyen terme}
+A court terme, nous visons la stabilisation de la chaine complete en conditions proches de la production. A moyen terme, nous recommandons une extension vers des cas d'usage sectoriels plus complexes avec exigences reglementaires explicites, afin de consolider la valeur entreprise de la solution.
+
+\end{document}
