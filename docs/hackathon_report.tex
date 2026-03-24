@@ -11,14 +11,15 @@
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{titlesec}
+\usepackage{microtype}
 
 \hypersetup{
   colorlinks=true,
   linkcolor=blue,
   urlcolor=blue,
   pdftitle={AI Delivery Multi-Agent - Rapport Jury},
-  pdfauthor={Equipe 24},
-  pdfsubject={Rapport structure en 4 parties}
+  pdfauthor={Équipe 24},
+  pdfsubject={Rapport structuré en 4 parties}
 }
 
 \setstretch{1.08}
@@ -33,7 +34,7 @@
   \centering
   \vspace*{0.4cm}
 
-  % Logo principal (a remplacer plus tard par image-1)
+  % Logo principal (à remplacer plus tard par image-1)
   \IfFileExists{image-1.png}
     {\includegraphics[width=0.42\textwidth]{image-1.png}}
     {\IfFileExists{image-1.jpg}
@@ -41,10 +42,10 @@
       {\fbox{\parbox[c][2.5cm][c]{0.42\textwidth}{\centering image-1}}}}
 
   \vspace{1.0cm}
-  {\large \textbf{Challenge propose par :}}\\[0.25cm]
-  {\Large \textbf{IBM -- Systeme multi-agents pour generer du software automatiquement}}\\[1.0cm]
+  {\large \textbf{Challenge proposé par :}}\\[0.25cm]
+  {\Large \textbf{IBM -- Système multi-agents pour générer du logiciel automatiquement}}\\[1.0cm]
 
-  {\large \textbf{Equipe :}}\\[0.35cm]
+  {\large \textbf{Équipe :}}\\[0.35cm]
   \begin{minipage}{0.6\textwidth}
     \begin{itemize}
       \item Ethan Brosselard
@@ -52,13 +53,13 @@
       \item Rayane Malik
     \end{itemize}
   \end{minipage}\\[0.4cm]
-  {\large \textbf{Equipe 24}}\\[0.8cm]
+  {\large \textbf{Équipe 24}}\\[0.8cm]
 
   {\large \textbf{Lien Git :} \href{https://github.com/ZayKox/ai-delivery-multiagent}{https://github.com/ZayKox/ai-delivery-multiagent}}\\[0.9cm]
   {\large Du 23 au 27 mars 2026}
 
   \vfill
-  % Logos bas de page (a remplacer plus tard par image-2, image-3, image-4)
+  % Logos bas de page (à remplacer plus tard par image-2, image-3, image-4)
   \begin{minipage}{0.31\textwidth}
     \centering
     \IfFileExists{image-2.png}
@@ -92,112 +93,112 @@
 % =====================
 \section{Pertinence et innovation}
 \subsection*{Analyse du besoin et enjeux sectoriels}
-Nous adressons un besoin frequent dans les equipes produit : accelerer le passage de la specification a des artefacts exploitables (plan, architecture, code, tests, documentation), tout en conservant la tracabilite des decisions.
+Nous répondons à un besoin récurrent des équipes produit : accélérer le passage d'une spécification à des artefacts exploitables (plan, architecture, code, tests, documentation), tout en préservant la traçabilité des décisions.
 
-Dans de nombreux contextes operationnels, les difficultes viennent de la fragmentation du flux (analyse, conception, implementation et validation traitees dans des outils differents). Notre projet vise a reduire cette rupture en centralisant le processus dans un orchestrateur unique.
+Dans de nombreux contextes opérationnels, les difficultés proviennent de la fragmentation du flux (analyse, conception, implémentation et validation traitées dans des outils différents). Notre projet vise à réduire cette rupture en centralisant le processus dans un orchestrateur unique.
 
-\subsection*{Pertinence de la solution proposee}
-Notre solution prend en entree une expression de besoin (texte, markdown, JSON) et produit automatiquement les livrables essentiels d'une chaine de delivery. Le choix d'un pipeline multi-agents specialise permet de separer les responsabilites et de rendre chaque etape explicable.
+\subsection*{Pertinence de la solution proposée}
+Notre solution prend en entrée une expression de besoin (texte, markdown, JSON) et produit automatiquement les livrables essentiels d'une chaîne de delivery. Le choix d'un pipeline multi-agents spécialisé permet de séparer les responsabilités, d'améliorer l'explicabilité et de faciliter l'audit.
 
-\subsection*{Innovation et originalite}
-L'innovation principale n'est pas un simple generateur de code :
+\subsection*{Innovation et originalité}
+L'innovation principale ne se limite pas à un générateur de code :
 \begin{itemize}
-  \item orchestration deterministe de plusieurs roles IA,
-  \item etat partage type pour assurer la coherence inter-etapes,
-  \item mode interactif (pause/intervention/reprise) pour garder un pilotage humain,
-  \item production simultanee de code \textit{et} de documentation C4 et traces de raisonnement.
+  \item orchestration déterministe de plusieurs rôles IA,
+  \item état partagé typé pour assurer la cohérence inter-étapes,
+  \item mode interactif (pause/intervention/reprise) pour maintenir un pilotage humain,
+  \item production conjointe de code, de documentation C4 et de traces de raisonnement.
 \end{itemize}
 
-\subsection*{Anticipation des defis}
-Nous avons explicitement anticipe les risques de derive d'autonomie, d'incoherence entre artefacts, et de manque d'auditabilite. C'est pourquoi nous avons privilegie la sobriete d'architecture, la validation par contrats et la persistance de traces.
+\subsection*{Anticipation des défis}
+Nous avons explicitement anticipé les risques de dérive d'autonomie, d'incohérence entre artefacts et de manque d'auditabilité. C'est pourquoi nous avons privilégié une architecture sobre, une validation par contrats et une persistance systématique des traces.
 
 % =====================
 % PARTIE 2 (max 1 page)
 % =====================
-\section{Qualite technique et faisabilite}
+\section{Qualité technique et faisabilité}
 \subsection*{Choix techniques et justification}
-Les choix techniques suivent une logique de robustesse et de faisabilite :
+Les choix techniques suivent une logique de robustesse et de faisabilité :
 \begin{itemize}
-  \item \textbf{Python 3.11} pour la productivite et la maturite ecosysteme,
-  \item \textbf{LangGraph} avec fallback sequentiel pour garantir l'execution meme en environnement contraint,
-  \item \textbf{Pydantic} pour valider les contrats de donnees,
+  \item \textbf{Python 3.11} pour la productivité et la maturité de l'écosystème,
+  \item \textbf{LangGraph} avec fallback séquentiel pour garantir l'exécution, même en environnement contraint,
+  \item \textbf{Pydantic} pour valider les contrats de données,
   \item \textbf{FastAPI} pour exposer un pilotage API clair,
-  \item \textbf{uv/ruff/pytest} pour standardiser qualite et maintenance.
+  \item \textbf{uv/ruff/pytest} pour standardiser la qualité et la maintenance.
 \end{itemize}
 
-\subsection*{Clarte methodologique et qualite logicielle}
+\subsection*{Clarté méthodologique et qualité logicielle}
 L'architecture suit un flux simple et lisible :
 \texttt{spec\_analyst $\rightarrow$ architect $\rightarrow$ developer $\rightarrow$ qa\_devops $\rightarrow$ reviewer}.
-Chaque stage met a jour un etat central type, ce qui facilite le debogage, la verification de coherence et la reprise de session.
+Chaque étape met à jour un état central typé, ce qui facilite le débogage, la vérification de cohérence et la reprise de session.
 
-Nous avons structure le depot pour distinguer le \textbf{generateur} de l'\textbf{application generee} (\texttt{workspace/generated\_app/}), ce qui renforce la maintenabilite et la lisibilite pour un jury technique.
+Nous avons structuré le dépôt pour distinguer le \textbf{générateur} de l'\textbf{application générée} (\texttt{workspace/generated\_app/}), ce qui renforce la maintenabilité et la lisibilité pour un jury technique.
 
-\subsection*{Faisabilite operationnelle et passage a l'echelle}
-La faisabilite est demontree en mode demo avec generation de plans, C4, code, traces et rapports. Le design est extensible : la couche provider LLM est abstraite, ce qui permet de brancher un provider entreprise (Snowflake) sans refonte globale.
+\subsection*{Faisabilité opérationnelle et passage à l'échelle}
+La faisabilité est démontrée en mode démo avec génération de plans, C4, code, traces et rapports. Le design est extensible : la couche provider LLM est abstraite, ce qui permet de brancher un provider entreprise (Snowflake) sans refonte globale.
 
-A l'echelle, les points a renforcer sont identifies : robustesse du provider runtime, CI du code genere, et durcissement de l'integration frontend/backend.
+À l'échelle, les points à renforcer sont identifiés : robustesse du provider en exécution réelle, CI du code généré et durcissement de l'intégration frontend/backend.
 
 % =====================
 % PARTIE 3 (max 1 page)
 % =====================
-\section{Impact, risques et responsabilite}
+\section{Impact, risques et responsabilité}
 \subsection*{Impacts attendus}
 Les impacts positifs attendus sont :
 \begin{itemize}
-  \item reduction du temps entre specification et prototype executable,
+  \item réduction du temps entre spécification et prototype exécutable,
   \item meilleure standardisation des livrables techniques,
-  \item meilleure auditabilite grace aux traces et rapports,
-  \item meilleure capacite de demonstration pour des projets innovants.
+  \item meilleure auditabilité grâce aux traces et aux rapports,
+  \item meilleure capacité de démonstration pour des projets innovants.
 \end{itemize}
 
-\subsection*{Principaux risques identifies}
+\subsection*{Principaux risques identifiés}
 \begin{itemize}
-  \item risque d'erreurs semantiques dans l'interpretation initiale du besoin,
-  \item risque d'ecart entre code genere et attentes metier,
-  \item risque de dependance a des integrations provider non finalisees,
-  \item risque de sur-confiance utilisateur en cas de supervision insuffisante.
+  \item risque d'erreurs sémantiques dans l'interprétation initiale du besoin,
+  \item risque d'écart entre code généré et attentes métier,
+  \item risque de dépendance à des intégrations provider non finalisées,
+  \item risque de surconfiance utilisateur en cas de supervision insuffisante.
 \end{itemize}
 
 \subsection*{Mesures de mitigation}
-Nous mettons en oeuvre des mesures concretes :
+Nous mettons en œuvre des mesures concrètes :
 \begin{itemize}
-  \item checkpoints d'intervention humaine entre stages,
-  \item contrats de donnees types (validation stricte),
-  \item separation claire des couches et responsabilites,
+  \item checkpoints d'intervention humaine entre les étapes,
+  \item contrats de données typés (validation stricte),
+  \item séparation claire des couches et responsabilités,
   \item persistance des sessions/runs pour audit et reprise,
-  \item tests unitaires et integration pour non-regression.
+  \item tests unitaires et d'intégration pour limiter les régressions.
 \end{itemize}
 
-\subsection*{Cadre de responsabilite et limites}
-Le systeme est concu comme un assistant de delivery, pas un substitut complet a la validation humaine. Notre position est explicite : la decision finale reste humaine, en particulier sur l'architecture cible, les choix de production et les enjeux de conformite secteur.
+\subsection*{Cadre de responsabilité et limites}
+Le système est conçu comme un assistant de delivery, et non comme un substitut complet à la validation humaine. Notre position est explicite : la décision finale reste humaine, en particulier sur l'architecture cible, les choix de production et les enjeux de conformité sectorielle.
 
 % =====================
 % PARTIE 4 (max 1 page)
 % =====================
 \section{Conclusion et recommandations}
-\subsection*{Synthese des apports}
-Notre projet demontre qu'un orchestrateur multi-agents peut produire, de maniere structuree, les artefacts essentiels d'une chaine de delivery logicielle : analyse, plan, architecture, generation applicative, validation et reporting.
+\subsection*{Synthèse des apports}
+Notre projet démontre qu'un orchestrateur multi-agents peut produire, de manière structurée, les artefacts essentiels d'une chaîne de delivery logicielle : analyse, plan, architecture, génération applicative, validation et reporting.
 
-Les forces principales sont la lisibilite du flux, le determinisme de l'orchestration, la tracabilite des sorties et l'integration d'un mode interactif qui permet d'allier automatisation et controle humain.
+Les forces principales sont la lisibilité du flux, le déterminisme de l'orchestration, la traçabilité des sorties et l'intégration d'un mode interactif qui permet de combiner automatisation et contrôle humain.
 
 \subsection*{Limites principales}
-Les limites actuelles sont connues et assumees :
+Les limites actuelles sont connues et assumées :
 \begin{itemize}
-  \item integration Snowflake runtime a finaliser,
-  \item persistance backend generee a renforcer,
-  \item integration frontend/backend a durcir,
-  \item pipeline CI de l'application generee a industrialiser.
+  \item intégration Snowflake runtime à finaliser,
+  \item persistance backend générée à renforcer,
+  \item intégration frontend/backend à durcir,
+  \item pipeline CI de l'application générée à industrialiser.
 \end{itemize}
 
-\subsection*{Recommandations concretes}
+\subsection*{Recommandations concrètes}
 \begin{itemize}
-  \item finaliser la connexion provider et ses tests d'integration,
-  \item imposer une validation CI complete sur le code genere,
-  \item renforcer la gouvernance des prompts (versionning + revues),
-  \item ajouter des metriques de qualite de generation (precision, stabilite, taux de reprise).
+  \item finaliser la connexion provider et ses tests d'intégration,
+  \item imposer une validation CI complète sur le code généré,
+  \item renforcer la gouvernance des prompts (versionnage + revues),
+  \item ajouter des métriques de qualité de génération (précision, stabilité, taux de reprise).
 \end{itemize}
 
-\subsection*{Perspectives court et moyen terme}
-A court terme, nous visons la stabilisation de la chaine complete en conditions proches de la production. A moyen terme, nous recommandons une extension vers des cas d'usage sectoriels plus complexes avec exigences reglementaires explicites, afin de consolider la valeur entreprise de la solution.
+\subsection*{Perspectives à court et moyen terme}
+À court terme, nous visons la stabilisation de la chaîne complète dans des conditions proches de la production. À moyen terme, nous recommandons une extension vers des cas d'usage sectoriels plus complexes avec exigences réglementaires explicites, afin de consolider la valeur entreprise de la solution.
 
 \end{document}
