@@ -29,6 +29,7 @@ Convention:
 - [x] `uv`, `ruff`, `pytest`, `pre-commit`, CI tooling
 - [x] generation of a target application in `workspace/generated_app/`
 - [x] generator tests passing
+- [x] complete linear repository walkthrough notebook (`REPOSITORY_WALKTHROUGH.ipynb`)
 
 ## P0 - Real Project Test
 
