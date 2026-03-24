@@ -1,0 +1,369 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+\usefonttheme{professionalfonts}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,calc}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{Primary}{HTML}{0D3B66}
+\definecolor{Accent}{HTML}{EE964B}
+\definecolor{Soft}{HTML}{F4D35E}
+\setbeamercolor{structure}{fg=Primary}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{fg=Primary}
+\setbeamercolor{block title}{bg=Primary!12, fg=Primary}
+\setbeamercolor{block body}{bg=Primary!4, fg=black}
+\setbeamercolor{itemize item}{fg=Primary}
+\setbeamercolor{itemize subitem}{fg=Primary}
+
+\lstset{
+  basicstyle=\ttfamily\scriptsize,
+  breaklines=true,
+  columns=fullflexible,
+  frame=single,
+  rulecolor=\color{Primary!40},
+  keywordstyle=\color{Primary}\bfseries,
+  commentstyle=\color{gray},
+  showstringspaces=false
+}
+
+\title[AI Delivery Multi-Agent]{AI Delivery Multi-Agent\\\large Du besoin aux artefacts software en quelques minutes}
+\subtitle{Pitch Hackathon -- 12 min + 8 min Q\&A}
+\author{Équipe 24\\Ethan Brosselard \and Savain Blaneus \and Rayane Malik}
+\institute{Challenge IBM}
+\date{Mars 2026}
+
+\begin{document}
+
+% 1) Titre
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% 2) Accroche
+\begin{frame}{Imaginez cette scène...}
+\begin{columns}[T]
+\column{0.62\textwidth}
+\begin{block}{17h12, veille de démo client}
+\begin{itemize}
+  \item Le client dit : \textbf{« Je veux un prototype demain matin. »}
+  \item L'équipe a : un brief, des notes, 3 idées contradictoires.
+  \item En quelques heures, il faut aligner \textbf{métier + architecture + code}.
+\end{itemize}
+\end{block}
+\vspace{0.15cm}
+\begin{alertblock}{La vraie douleur}
+Ce n'est pas seulement coder vite.\\
+C'est livrer vite \textbf{sans perdre la cohérence} ni la confiance du client.
+\end{alertblock}
+\column{0.38\textwidth}
+\begin{tikzpicture}[node distance=5mm]
+\node[draw,rounded corners,fill=red!10,align=center,text width=3.4cm,minimum height=0.85cm] (a) {17h : brief incomplet};
+\node[draw,rounded corners,fill=red!10,below=of a,align=center,text width=3.4cm,minimum height=0.85cm] (b) {20h : décisions floues};
+\node[draw,rounded corners,fill=red!10,below=of b,align=center,text width=3.4cm,minimum height=0.85cm] (c) {23h : dette de qualité};
+\node[draw,rounded corners,fill=green!14,below=of c,align=center,text width=3.4cm,minimum height=1.0cm] (d) {8h : démo crédible};
+\draw[-{Latex[length=2mm]},thick] (a)--(b);
+\draw[-{Latex[length=2mm]},thick] (b)--(c);
+\draw[-{Latex[length=2mm]},thick,Primary] (c)--(d);
+\end{tikzpicture}
+\end{columns}
+\end{frame}
+
+% 3) Problème
+\begin{frame}{Le problème concret}
+\begin{block}{Cas typique : application de gestion de tâches}
+\begin{itemize}
+  \item Le métier donne un besoin en texte/Markdown.
+  \item L'équipe doit livrer \textbf{plan + architecture + app + tests + CI}.
+  \item Chaque livrable est produit séparément, souvent sans cohérence globale.
+\end{itemize}
+\end{block}
+\vspace{0.2cm}
+\begin{itemize}
+  \item Multiplication des allers-retours.
+  \item Risque de dérive entre intention métier et code.
+  \item Difficile à auditer pour un contexte entreprise.
+\end{itemize}
+\end{frame}
+
+% 4) Enjeux
+\begin{frame}{Pourquoi c'est critique ?}
+\begin{columns}[T]
+\column{0.5\textwidth}
+\textbf{Enjeux business}
+\begin{itemize}
+  \item Time-to-prototype
+  \item Coût de coordination
+  \item Qualité perçue en démo
+\end{itemize}
+\column{0.5\textwidth}
+\textbf{Enjeux techniques}
+\begin{itemize}
+  \item Cohérence inter-artefacts
+  \item Gouvernance des décisions
+  \item Reproductibilité des runs
+\end{itemize}
+\end{columns}
+\vspace{0.4cm}
+\begin{alertblock}{Contrainte hackathon IBM}
+Démontrer une solution multi-agents \textbf{défendable en entreprise} : traçable, lisible, fiable.
+\end{alertblock}
+\end{frame}
+
+% 5) Solution proposée
+\begin{frame}{Notre solution}
+\begin{block}{AI Delivery Multi-Agent}
+Un \textbf{générateur Python multi-agents} qui transforme une exigence en artefacts clés d'une chaîne logicielle.
+\end{block}
+\vspace{0.2cm}
+\begin{itemize}
+  \item Entrées : texte, Markdown, JSON.
+  \item Sorties : analyse, plan, C4, code app, tests, CI/CD, traces Plan/Act/Reason.
+  \item Exécution via CLI \textbf{et} API.
+\end{itemize}
+\vspace{0.2cm}
+\begin{center}
+\textbf{Objectif :} industrialiser la phase \og de l'idée au prototype crédible \fg.
+\end{center}
+\end{frame}
+
+% 6) Idée principale
+\begin{frame}{Idée principale du système}
+\begin{center}
+\begin{tikzpicture}[node distance=6mm, every node/.style={font=\small}]
+\node[draw,rounded corners,fill=Primary!8,minimum width=2.8cm,minimum height=0.8cm] (in) {Input besoin};
+\node[draw,rounded corners,fill=Primary!8,right=8mm of in,minimum width=2.8cm,minimum height=0.8cm] (state) {État typé central};
+\node[draw,rounded corners,fill=Primary!8,right=8mm of state,minimum width=2.8cm,minimum height=0.8cm] (agents) {Agents spécialisés};
+\node[draw,rounded corners,fill=Accent!16,right=8mm of agents,minimum width=2.8cm,minimum height=0.8cm] (out) {Artefacts prêts};
+\draw[-{Latex[length=2mm]},thick] (in)--(state);
+\draw[-{Latex[length=2mm]},thick] (state)--(agents);
+\draw[-{Latex[length=2mm]},thick] (agents)--(out);
+\end{tikzpicture}
+\end{center}
+\vspace{0.3cm}
+\begin{itemize}
+  \item \textbf{Décomposition des rôles} pour réduire l'ambiguïté.
+  \item \textbf{Flux déterministe} pour fiabilité démo.
+  \item \textbf{Contrats Pydantic} pour valider chaque étape.
+\end{itemize}
+\end{frame}
+
+% 7) Architecture
+\begin{frame}{Architecture système (vue conteneurs)}
+\begin{center}
+\begin{tikzpicture}[node distance=7mm, every node/.style={font=\scriptsize}]
+\node[draw,rounded corners,fill=blue!8,minimum width=3.1cm,minimum height=0.9cm] (cli) {CLI / API FastAPI};
+\node[draw,rounded corners,fill=blue!8,right=of cli,minimum width=3.2cm,minimum height=0.9cm] (graph) {Orchestrateur LangGraph};
+\node[draw,rounded corners,fill=blue!8,right=of graph,minimum width=3.2cm,minimum height=0.9cm] (llm) {Provider LLM abstrait};
+
+\node[draw,rounded corners,fill=green!8,below=of graph,minimum width=10.4cm,minimum height=0.9cm] (agents) {Agents: spec\_analyst $\rightarrow$ architect $\rightarrow$ developer $\rightarrow$ qa\_devops $\rightarrow$ reviewer};
+\node[draw,rounded corners,fill=orange!10,below=of agents,minimum width=10.4cm,minimum height=1.0cm] (art) {Artifacts: workspace/generated\_app + outputs/plans, outputs/c4, outputs/traces};
+
+\draw[-{Latex[length=2mm]},thick] (cli)--(graph);
+\draw[-{Latex[length=2mm]},thick] (graph)--(llm);
+\draw[-{Latex[length=2mm]},thick] (graph)--(agents);
+\draw[-{Latex[length=2mm]},thick] (agents)--(art);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% 8) Fonctionnement global
+\begin{frame}{Fonctionnement global (pipeline)}
+\begin{enumerate}
+  \item Ingestion et normalisation des exigences.
+  \item Plan projet et design architecture.
+  \item Génération de l'application (backend/frontend/templates).
+  \item Génération C4 + CI/CD + validations.
+  \item Reporting final + traces de raisonnement.
+\end{enumerate}
+\vspace{0.2cm}
+\begin{block}{Contrôle humain}
+Mode interactif : \textbf{pause, intervention, reprise} entre étapes critiques.
+\end{block}
+\end{frame}
+
+% 9) Démonstration concrète
+\begin{frame}{Démonstration (ce que voit le jury)}
+\begin{columns}[T]
+\column{0.50\textwidth}
+\textbf{Walkthrough live en 90 secondes}
+\vspace{0.15cm}
+\begin{enumerate}
+  \item \textbf{On lance} le run\\
+  \scriptsize{\texttt{ai\_delivery.cli run --input inputs/sample\_spec.md}}
+  \item \textbf{On suit} les étapes agents\\
+  \scriptsize{spec\_analyst $\rightarrow$ architect $\rightarrow$ developer...}
+  \item \textbf{On ouvre} les artefacts générés\\
+  \scriptsize{\texttt{workspace/generated\_app} + \texttt{outputs/*}}
+\end{enumerate}
+\vspace{0.15cm}
+\textbf{Interaction possible :}
+\begin{itemize}
+  \item \scriptsize \texttt{POST /runs}
+  \item \scriptsize \texttt{POST /runs/\{id\}/resume}
+  \item \scriptsize \texttt{POST /runs/\{id\}/interventions}
+\end{itemize}
+\column{0.50\textwidth}
+\begin{tikzpicture}[node distance=5.5mm, every node/.style={font=\scriptsize}]
+\node[draw,rounded corners,fill=Primary!10,text width=3.8cm,minimum height=0.9cm,align=center] (n1) {1) INPUT\\Spec client};
+\node[draw,rounded corners,fill=Primary!10,right=9mm of n1,text width=3.8cm,minimum height=0.9cm,align=center] (n2) {2) RUN\\Pipeline multi-agents};
+\node[draw,rounded corners,fill=Primary!10,below=9mm of n2,text width=3.8cm,minimum height=0.9cm,align=center] (n3) {3) CONTRÔLE\\Pause / intervention};
+\node[draw,rounded corners,fill=Accent!20,left=9mm of n3,text width=3.8cm,minimum height=0.9cm,align=center] (n4) {4) OUTPUT\\App + C4 + traces};
+\draw[-{Latex[length=2mm]},thick] (n1)--(n2);
+\draw[-{Latex[length=2mm]},thick] (n2)--(n3);
+\draw[-{Latex[length=2mm]},thick] (n3)--(n4);
+\draw[-{Latex[length=2mm]},thick,dashed] (n4) to[bend left=25] node[midway,below,font=\tiny]{itération rapide} (n1);
+\end{tikzpicture}
+\end{columns}
+\end{frame}
+
+% 10) Résultats
+\begin{frame}{Résultats obtenus}
+\begin{itemize}
+  \item Orchestrateur multi-agents fonctionnel (CLI + API).
+  \item Génération de l'app de démonstration dans \texttt{workspace/generated\_app/}.
+  \item Production de documents C4 (context, container, component).
+  \item Export des traces de raisonnement et plans d'exécution.
+  \item Suite de tests unitaires + intégration pour sécuriser la démo.
+\end{itemize}
+\vspace{0.2cm}
+\begin{block}{Impact immédiat}
+Une équipe passe d'une spécification brute à une base de projet cohérente en un run.
+\end{block}
+\end{frame}
+
+% 11) Valeur ajoutée
+\begin{frame}{Valeur ajoutée du projet}
+\begin{columns}[T]
+\column{0.5\textwidth}
+\textbf{Pour le métier}
+\begin{itemize}
+  \item Prototype plus rapide
+  \item Plus de lisibilité
+  \item Meilleure capacité de décision
+\end{itemize}
+\column{0.5\textwidth}
+\textbf{Pour la tech}
+\begin{itemize}
+  \item Stack standard (Python/FastAPI/React)
+  \item Architecture modulaire
+  \item Traçabilité native
+\end{itemize}
+\end{columns}
+\vspace{0.3cm}
+\begin{center}
+\fcolorbox{Primary}{Primary!7}{\parbox{0.82\linewidth}{\centering
+\textbf{Ce n'est pas seulement du code généré :} c'est une \textbf{chaîne de delivery complète} et auditable.
+}}
+\end{center}
+\end{frame}
+
+% 12) Crédibilité/faisabilité
+\begin{frame}{Crédibilité et faisabilité}
+\begin{itemize}
+  \item Choix techniques pragmatiques et éprouvés.
+  \item Découplage provider LLM: mock local \& extension Snowflake.
+  \item Gouvernance par contrats de données typés.
+  \item Exécution déterministe, simple à expliquer au jury.
+\end{itemize}
+\vspace{0.25cm}
+\begin{block}{Pourquoi ça marche ?}
+\begin{itemize}
+  \item Chaque agent a un périmètre clair.
+  \item Les artefacts sont écrits à des emplacements standardisés.
+  \item Les tests couvrent les unités et les scénarios d'intégration.
+\end{itemize}
+\end{block}
+\end{frame}
+
+% 13) Limites
+\begin{frame}{Limites actuelles (assumées)}
+\begin{itemize}
+  \item Intégration Snowflake réelle encore à finaliser.
+  \item Backend généré encore partiellement en mémoire sur certains templates.
+  \item Connexion frontend-backend à durcir pour une démo production-like.
+  \item CI de l'application générée à renforcer.
+\end{itemize}
+\vspace{0.2cm}
+\begin{alertblock}{Transparence}
+Nous préférons expliciter les limites plutôt que sur-promettre.
+\end{alertblock}
+\end{frame}
+
+% 14) Améliorations futures
+\begin{frame}{Roadmap d'amélioration}
+\begin{columns}[T]
+\column{0.33\textwidth}
+\textbf{P0}
+\begin{itemize}
+  \item Provider Snowflake réel
+  \item SQLite end-to-end
+\end{itemize}
+\column{0.33\textwidth}
+\textbf{P1}
+\begin{itemize}
+  \item UX intervention guidée
+  \item CI générée robuste
+\end{itemize}
+\column{0.33\textwidth}
+\textbf{P2}
+\begin{itemize}
+  \item Observabilité avancée
+  \item API durcie (auth)
+\end{itemize}
+\end{columns}
+\vspace{0.3cm}
+\begin{block}{Vision}
+Passer d'un \textbf{générateur de démo fiable} à un \textbf{accélérateur de delivery industriel}.
+\end{block}
+\end{frame}
+
+% 15) Valeur entreprise
+\begin{frame}{Pourquoi ce projet a de la valeur pour une entreprise ?}
+\begin{itemize}
+  \item Réduction du time-to-prototype
+  \item Standardisation des architectures
+  \item Traçabilité des décisions
+  \item Base projet plus propre
+  \item Meilleure démo client
+  \item Accélération innovation interne
+\end{itemize}
+\end{frame}
+
+% 16) Conclusion mémorable
+\begin{frame}{Conclusion -- message clé}
+\begin{center}
+{\Large \textbf{Demain matin, le client ne voit pas une promesse.\\Il voit une solution qui tourne.}}
+\end{center}
+\vspace{0.4cm}
+\begin{itemize}
+  \item Nous transformons un besoin flou en livrables concrets et alignés.
+  \item Nous accélérons la delivery sans sacrifier gouvernance ni traçabilité.
+  \item Nous donnons à l'entreprise une base propre pour innover plus vite.
+\end{itemize}
+\vspace{0.3cm}
+\begin{center}
+\fcolorbox{Primary}{Primary!8}{\parbox{0.83\linewidth}{\centering
+\textbf{AI Delivery Multi-Agent} = \\textit{accélérer sans perdre le contrôle, et convaincre plus vite.}
+}}
+\end{center}
+\end{frame}
+
+% 17) Q&A
+\begin{frame}[standout]
+\centering
+{\Huge Questions ?}\\[0.4cm]
+{\Large Merci !}
+\vfill
+\small 8 minutes de Q\&A
+\end{frame}
+
+\end{document}
