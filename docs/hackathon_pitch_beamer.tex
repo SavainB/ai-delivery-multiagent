@@ -18,20 +18,18 @@
 \definecolor{Soft}{HTML}{F4D35E}
 \setbeamercolor{structure}{fg=Primary}
 \setbeamercolor{title}{fg=Primary}
-\setbeamercolor{frametitle}{fg=Primary}
+\setbeamercolor{frametitle}{fg=white,bg=Primary}
 \setbeamercolor{block title}{bg=Primary!12, fg=Primary}
 \setbeamercolor{block body}{bg=Primary!4, fg=black}
 \setbeamercolor{itemize item}{fg=Primary}
 \setbeamercolor{itemize subitem}{fg=Primary}
-\setbeamercolor{headline bar}{bg=Primary!12,fg=Primary}
+\setbeamertemplate{headline}{}
 
-\setbeamertemplate{headline}{
-  \leavevmode
-  \hbox{
-    \begin{beamercolorbox}[wd=\paperwidth,ht=2.8ex,dp=1.2ex,leftskip=1em,rightskip=1em]{headline bar}
-      \scriptsize\textbf{Sujet du slide :} \insertsectionhead
-    \end{beamercolorbox}
-  }
+\setbeamertemplate{frametitle}{
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=3.2ex,dp=1.2ex,leftskip=1em,rightskip=1em]{frametitle}
+    \usebeamerfont{frametitle}\insertframetitle
+  \end{beamercolorbox}
 }
 
 \setbeamertemplate{navigation symbols}{}
@@ -57,7 +55,7 @@
 
 % 1) Titre
 \section{Introduction}
-\begin{frame}
+\begin{frame}{AI Delivery Multi-Agent}
   \titlepage
 \end{frame}
 
