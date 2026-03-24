@@ -81,6 +81,12 @@
     \textbf{Perimetre :} & Architecture, methode, implementation, resultats \\
   \end{tabular}
 
+  \vspace{1.0cm}
+  {\large \textbf{Auteurs :}}\\[0.2cm]
+  {\large Ethan Brosselard}\\
+  {\large Savain Blaneus}\\
+  {\large Rayane Malik}
+
   \vfill
 
   {\large \textbf{Date :} Mars 2026}\\
@@ -92,17 +98,17 @@
 
 \section*{Resume}
 \addcontentsline{toc}{section}{Resume}
-Ce rapport presente \textit{AI Delivery Multi-Agent}, un generateur Python qui transforme une expression de besoin en artefacts de livraison logicielle de bout en bout. L'objectif n'est pas uniquement de produire du code, mais d'orchestrer l'ensemble de la chaine de valeur : analyse des exigences, planification, definition d'architecture, generation de scaffolds applicatifs, verification qualite, preparation CI/CD et consolidation finale.
+Dans ce rapport, nous presentons \textit{AI Delivery Multi-Agent}, un generateur Python qui transforme une expression de besoin en artefacts de livraison logicielle de bout en bout. Notre objectif n'est pas uniquement de produire du code, mais d'orchestrer l'ensemble de la chaine de valeur : analyse des exigences, planification, definition d'architecture, generation de scaffolds applicatifs, verification qualite, preparation CI/CD et consolidation finale.
 
-L'implementation repose sur un pipeline deterministe a cinq agents (\texttt{spec\_analyst}, \texttt{architect}, \texttt{developer}, \texttt{qa\_devops}, \texttt{reviewer}) qui enrichissent un etat partage type. Cette approche combine les gains de productivite de l'IA avec des garde-fous d'ingenierie : contrats Pydantic, separation des responsabilites, prompts versionnes hors code, sessions persistantes et checkpoints d'intervention.
+Notre implementation repose sur un pipeline deterministe a cinq agents (\texttt{spec\_analyst}, \texttt{architect}, \texttt{developer}, \texttt{qa\_devops}, \texttt{reviewer}) qui enrichissent un etat partage type. Cette approche combine les gains de productivite de l'IA avec des garde-fous d'ingenierie : contrats Pydantic, separation des responsabilites, prompts versionnes hors code, sessions persistantes et checkpoints d'intervention.
 
-Le projet est aujourd'hui demonstrable et structurellement mature pour une soutenance hackathon : generation C4, creation d'un workspace applicatif cible, traces de raisonnement et validation par tests unitaires/integration. Les limites restantes sont explicites : integration Snowflake runtime complete, renforcement persistance de l'application generee, couplage frontend/backend plus robuste et CI du projet genere plus exigeante.
+Le projet que nous livrons est aujourd'hui demonstrable et structurellement mature pour une soutenance hackathon : generation C4, creation d'un workspace applicatif cible, traces de raisonnement et validation par tests unitaires/integration. Les limites restantes sont explicites : integration Snowflake runtime complete, renforcement persistance de l'application generee, couplage frontend/backend plus robuste et CI du projet genere plus exigeante.
 
 \section{Introduction}
 \subsection{Contexte et motivation}
 Dans les projets logiciels, la perte de temps se situe souvent entre la formalisation du besoin et la mise en place effective de la livraison. L'information transite entre plusieurs outils (specification, architecture, code, tests, documentation), ce qui degrade la tracabilite et multiplie les frictions.
 
-\textit{AI Delivery Multi-Agent} vise a reduire ce delai en proposant un \textbf{generateur de pipeline logiciel}. Le depot principal ne porte pas directement l'application metier finale ; il contient l'orchestrateur, les prompts, les services, les contrats et les outils pour produire automatiquement les artefacts attendus.
+\textit{AI Delivery Multi-Agent} vise a reduire ce delai en proposant un \textbf{generateur de pipeline logiciel}. Le depot principal ne porte pas directement l'application metier finale ; nous y centralisons l'orchestrateur, les prompts, les services, les contrats et les outils pour produire automatiquement les artefacts attendus.
 
 \subsection{Positionnement du depot}
 Le projet impose une separation claire :
@@ -115,7 +121,7 @@ Le projet impose une separation claire :
 Cette separation facilite la maintenance, les audits et la lecture par un jury technique.
 
 \subsection{Contributions principales}
-Le projet apporte :
+Avec ce projet, nous apportons :
 \begin{enumerate}[leftmargin=1.5em]
   \item une orchestration multi-agents deterministe et explicable ;
   \item un etat central type pour garantir la coherence inter-etapes ;
@@ -152,11 +158,11 @@ Determinisme, reproductibilite, isolation des responsabilites, supervision humai
 
 \section{Solution proposee}
 \subsection{Strategie globale}
-La solution adopte un flux ordonne d'agents :
+Nous adoptons un flux ordonne d'agents :
 \begin{center}
 \texttt{spec\_analyst $\rightarrow$ architect $\rightarrow$ developer $\rightarrow$ qa\_devops $\rightarrow$ reviewer}
 \end{center}
-Chaque etape lit et enrichit l'etat partage, ce qui garantit une progression controlee.
+Chaque etape lit et enrichit l'etat partage, ce qui nous permet de garantir une progression controlee.
 
 \subsection{Principes d'architecture}
 \begin{enumerate}[leftmargin=1.5em]
@@ -168,7 +174,7 @@ Chaque etape lit et enrichit l'etat partage, ce qui garantit une progression con
 \end{enumerate}
 
 \subsection{Modele de sorties}
-Le systeme produit :
+Dans cette architecture, nous produisons :
 \begin{itemize}[leftmargin=1.5em]
   \item interpretation structuree du besoin,
   \item blueprint projet,
@@ -179,7 +185,7 @@ Le systeme produit :
 \end{itemize}
 
 \subsection{Controle humain (human-in-the-loop)}
-Le mode interactif permet de mettre en pause l'execution entre stages et d'appliquer des patchs sur certains champs d'etat avant reprise. Cela permet de corriger une mauvaise interpretation sans relancer tout le pipeline.
+Le mode interactif nous permet de mettre en pause l'execution entre stages et d'appliquer des patchs sur certains champs d'etat avant reprise. Cela permet de corriger une mauvaise interpretation sans relancer tout le pipeline.
 
 \subsection{Matrice de tracabilite exigence-composant-validation}
 \begin{longtable}{p{0.26\textwidth}p{0.24\textwidth}p{0.22\textwidth}p{0.20\textwidth}}
@@ -284,7 +290,7 @@ Ce choix simplifie :
 
 \section{Methodologie}
 \subsection{Approche de developpement}
-L'approche est incrementalement orientee produit : d'abord les contrats et l'orchestration deterministe, puis la generation, la persistance d'artefacts, et enfin la couverture par tests et documentation.
+Notre approche est incrementalement orientee produit : d'abord les contrats et l'orchestration deterministe, puis la generation, la persistance d'artefacts, et enfin la couverture par tests et documentation.
 
 \subsection{Cycle d'execution type}
 \begin{enumerate}[leftmargin=1.5em]
@@ -403,7 +409,7 @@ La configuration est separee entre :
 
 \section{Resultats et experimentations}
 \subsection{Capacites effectivement implementees}
-Le depot demontre actuellement :
+A ce stade, nous demontrons :
 \begin{itemize}[leftmargin=1.5em]
   \item un flux multi-agents deterministe,
   \item des artefacts structures et persistants,
@@ -441,7 +447,7 @@ Ces metriques sont structurelles (maturite implementation) et non des benchmarks
 \end{enumerate}
 
 \subsection{Observations}
-Les resultats montrent une bonne adequation pour un contexte demo-jury : lisibilite du flux, auditabilite des sorties, controle de l'autonomie et trajectoire de passage vers une version plus industrielle.
+Les resultats que nous obtenons montrent une bonne adequation pour un contexte demo-jury : lisibilite du flux, auditabilite des sorties, controle de l'autonomie et trajectoire de passage vers une version plus industrielle.
 
 \section{Discussion et limites}
 \subsection{Limites actuelles}
@@ -492,9 +498,9 @@ Risques principaux : complexite integration provider, derive entre templates et 
 \end{enumerate}
 
 \section{Conclusion}
-\textit{AI Delivery Multi-Agent} montre une approche solide pour l'automatisation assistee par IA de la livraison logicielle. La valeur principale ne se limite pas a generer du code : le systeme structure une chaine complete, explicable et pilotable, de l'analyse a la revue finale.
+\textit{AI Delivery Multi-Agent} montre une approche solide pour l'automatisation assistee par IA de la livraison logicielle. Pour nous, la valeur principale ne se limite pas a generer du code : le systeme structure une chaine complete, explicable et pilotable, de l'analyse a la revue finale.
 
-Dans un contexte hackathon, le projet est convaincant car il conjugue demonstrabilite et discipline d'ingenierie. Dans une perspective industrielle, les fondations sont deja presentes (modularite, contrats types, persistance, API, tests) et les chantiers restants sont clairement identifies.
+Dans un contexte hackathon, notre projet est convaincant car il conjugue demonstrabilite et discipline d'ingenierie. Dans une perspective industrielle, les fondations sont deja presentes (modularite, contrats types, persistance, API, tests) et les chantiers restants sont clairement identifies.
 
 En synthese, le projet constitue une base credible pour evoluer vers un orchestrateur de livraison logicielle autonome de niveau entreprise.
 
