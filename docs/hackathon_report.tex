@@ -1,0 +1,501 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{caption}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+  pdftitle={AI Delivery Multi-Agent : Rapport d'ingenierie},
+  pdfauthor={Hackathon Team},
+  pdfsubject={Generateur multi-agents de livraison logicielle}
+}
+
+\definecolor{codebg}{RGB}{248,248,248}
+\definecolor{codekw}{RGB}{0,70,140}
+\definecolor{codecom}{RGB}{0,120,0}
+\definecolor{codestr}{RGB}{163,21,21}
+
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{codebg},
+  keywordstyle=\color{codekw}\bfseries,
+  commentstyle=\color{codecom},
+  stringstyle=\color{codestr},
+  frame=single,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false,
+  captionpos=b
+}
+
+\lstdefinestyle{yamlstyle}{
+  language={},
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false,
+  captionpos=b
+}
+
+\setstretch{1.15}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{1.8cm}
+
+  {\LARGE \textbf{AI Delivery Multi-Agent}}\\[0.4cm]
+  {\Large Rapport technique complet de projet hackathon}\\[1.0cm]
+
+  \vspace{0.8cm}
+  {\large Rapport d'ingenierie (niveau universitaire)}\\[0.3cm]
+  {\large Generateur multi-agents de livraison logicielle}\\[1.8cm]
+
+  \begin{tabular}{rl}
+    \textbf{Type de projet :} & Ingenierie logicielle / IA generative \\
+    \textbf{Contexte :} & IBM Gen AI Hackathon 2026 \\
+    \textbf{Stack principale :} & Python 3.11, LangGraph, FastAPI, React, Vite \\
+    \textbf{Domaine :} & Orchestration autonome de livraison logicielle \\
+    \textbf{Perimetre :} & Architecture, methode, implementation, resultats \\
+  \end{tabular}
+
+  \vfill
+
+  {\large \textbf{Date :} Mars 2026}\\
+  {\large \textbf{Destinataire :} Jury technique / panel d'evaluation}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section*{Resume}
+\addcontentsline{toc}{section}{Resume}
+Ce rapport presente \textit{AI Delivery Multi-Agent}, un generateur Python qui transforme une expression de besoin en artefacts de livraison logicielle de bout en bout. L'objectif n'est pas uniquement de produire du code, mais d'orchestrer l'ensemble de la chaine de valeur : analyse des exigences, planification, definition d'architecture, generation de scaffolds applicatifs, verification qualite, preparation CI/CD et consolidation finale.
+
+L'implementation repose sur un pipeline deterministe a cinq agents (\texttt{spec\_analyst}, \texttt{architect}, \texttt{developer}, \texttt{qa\_devops}, \texttt{reviewer}) qui enrichissent un etat partage type. Cette approche combine les gains de productivite de l'IA avec des garde-fous d'ingenierie : contrats Pydantic, separation des responsabilites, prompts versionnes hors code, sessions persistantes et checkpoints d'intervention.
+
+Le projet est aujourd'hui demonstrable et structurellement mature pour une soutenance hackathon : generation C4, creation d'un workspace applicatif cible, traces de raisonnement et validation par tests unitaires/integration. Les limites restantes sont explicites : integration Snowflake runtime complete, renforcement persistance de l'application generee, couplage frontend/backend plus robuste et CI du projet genere plus exigeante.
+
+\section{Introduction}
+\subsection{Contexte et motivation}
+Dans les projets logiciels, la perte de temps se situe souvent entre la formalisation du besoin et la mise en place effective de la livraison. L'information transite entre plusieurs outils (specification, architecture, code, tests, documentation), ce qui degrade la tracabilite et multiplie les frictions.
+
+\textit{AI Delivery Multi-Agent} vise a reduire ce delai en proposant un \textbf{generateur de pipeline logiciel}. Le depot principal ne porte pas directement l'application metier finale ; il contient l'orchestrateur, les prompts, les services, les contrats et les outils pour produire automatiquement les artefacts attendus.
+
+\subsection{Positionnement du depot}
+Le projet impose une separation claire :
+\begin{itemize}[leftmargin=1.5em]
+  \item le \textbf{generateur} (orchestration et logique agentique) ;
+  \item l'\textbf{application cible generee} sous \texttt{workspace/generated\_app/} ;
+  \item les \textbf{sorties d'execution} (plans, traces, rapports, C4) sous \texttt{outputs/}.
+\end{itemize}
+
+Cette separation facilite la maintenance, les audits et la lecture par un jury technique.
+
+\subsection{Contributions principales}
+Le projet apporte :
+\begin{enumerate}[leftmargin=1.5em]
+  \item une orchestration multi-agents deterministe et explicable ;
+  \item un etat central type pour garantir la coherence inter-etapes ;
+  \item un mode interactif avec intervention humaine entre etapes ;
+  \item une generation full-stack (backend/frontend) par templates ;
+  \item une documentation C4 integree au pipeline ;
+  \item une base de verification via tests unitaires et integration.
+\end{enumerate}
+
+\section{Problematique}
+\subsection{Probleme traite}
+Le probleme central peut etre formule ainsi :
+
+\begin{quote}
+A partir d'une expression de besoin heterogene (texte, markdown, JSON), produire automatiquement des artefacts de livraison coherents entre eux : analyse, plan, architecture, code, verification et rapport final.
+\end{quote}
+
+\subsection{Difficultes techniques}
+Plusieurs verrous doivent etre geres simultanement :
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Ambiguite d'entree} : les specifications peuvent etre incomplètes ou inconsistantes.
+  \item \textbf{Coherence transversale} : l'architecture, le code et les tests doivent rester alignes.
+  \item \textbf{Controle d'autonomie} : un systeme trop libre est difficile a fiabiliser.
+  \item \textbf{Tracabilite} : il faut expliquer le \emph{pourquoi} des decisions produites.
+  \item \textbf{Defendabilite entreprise} : modularite, testabilite, extensibilite.
+\end{itemize}
+
+\subsection{Objectifs fonctionnels et non fonctionnels}
+\paragraph{Fonctionnels.}
+Analyser les besoins, produire un blueprint, definir l'architecture, generer le scaffold applicatif, produire la documentation et exposer une API de pilotage des runs.
+
+\paragraph{Non fonctionnels.}
+Determinisme, reproductibilite, isolation des responsabilites, supervision humaine, extensibilite vers un provider LLM d'entreprise.
+
+\section{Solution proposee}
+\subsection{Strategie globale}
+La solution adopte un flux ordonne d'agents :
+\begin{center}
+\texttt{spec\_analyst $\rightarrow$ architect $\rightarrow$ developer $\rightarrow$ qa\_devops $\rightarrow$ reviewer}
+\end{center}
+Chaque etape lit et enrichit l'etat partage, ce qui garantit une progression controlee.
+
+\subsection{Principes d'architecture}
+\begin{enumerate}[leftmargin=1.5em]
+  \item \textbf{Determinisme avant tout} : ordre de stages fixe et transitions explicites.
+  \item \textbf{Contrats types} : schemas valides a chaque jalon critique.
+  \item \textbf{Prompts gouvernes} : prompts en fichiers versionnes, pas en blocs inline.
+  \item \textbf{Transparence operationnelle} : sessions et artefacts persistants.
+  \item \textbf{Flexibilite runtime} : compatibilite LangGraph + fallback sequentiel.
+\end{enumerate}
+
+\subsection{Modele de sorties}
+Le systeme produit :
+\begin{itemize}[leftmargin=1.5em]
+  \item interpretation structuree du besoin,
+  \item blueprint projet,
+  \item design d'architecture + documents C4,
+  \item manifest de fichiers generes,
+  \item rapport de validation et revue,
+  \item traces \texttt{Plan / Act / Reason}.
+\end{itemize}
+
+\subsection{Controle humain (human-in-the-loop)}
+Le mode interactif permet de mettre en pause l'execution entre stages et d'appliquer des patchs sur certains champs d'etat avant reprise. Cela permet de corriger une mauvaise interpretation sans relancer tout le pipeline.
+
+\subsection{Matrice de tracabilite exigence-composant-validation}
+\begin{longtable}{p{0.26\textwidth}p{0.24\textwidth}p{0.22\textwidth}p{0.20\textwidth}}
+\toprule
+\textbf{Exigence} & \textbf{Composant principal} & \textbf{Artefact produit} & \textbf{Validation} \\
+\midrule
+Normalisation des entrees & \texttt{spec\_analyst} + parsing & \texttt{parsed\_requirements} & tests unitaires parser/state \\
+Planification et architecture & \texttt{architect} + services C4 & blueprint + docs C4 & tests integration C4 \\
+Generation applicative & \texttt{developer} + codegen & arbre backend/frontend & tests integration codegen \\
+Verification qualite & \texttt{qa\_devops} + outils validation & validation report & tests dry-run integration \\
+Revue finale & \texttt{reviewer} + reporting & rapport final + traces & assertions end-to-end \\
+Intervention utilisateur & session service + API & etat patche + reprise & tests session interactive \\
+\bottomrule
+\end{longtable}
+
+\section{Architecture du systeme}
+\subsection{Vue macro}
+Deux domaines sont separes :
+\begin{enumerate}[leftmargin=1.5em]
+  \item \textbf{Domaine generateur} (orchestration, agents, services, outils, prompts, tests).
+  \item \textbf{Domaine application generee} (materialise sous \texttt{workspace/generated\_app/}).
+\end{enumerate}
+
+\subsection{Decoupage en couches}
+\begin{itemize}[leftmargin=1.5em]
+  \item couche d'invocation (CLI/API/runtime),
+  \item couche etat/contrats,
+  \item couche graphe d'orchestration,
+  \item couche agents/services,
+  \item couche outils (filesystem, git, tests, diagrammes),
+  \item couche artefacts de sortie.
+\end{itemize}
+
+\subsection{Vues C4 (issues du depot)}
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.92\textwidth}
+\lstset{style=yamlstyle}
+\begin{lstlisting}[caption={C4 Context (Mermaid)}]
+flowchart LR
+  User[Business User] --> Generator[AI Delivery Multi-Agent]
+  Generator --> App[Generated Task App]
+  Generator --> Docs[C4 Documentation]
+\end{lstlisting}
+\end{minipage}
+\caption{Vue contexte : relation utilisateur -> generateur -> artefacts.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.92\textwidth}
+\lstset{style=yamlstyle}
+\begin{lstlisting}[caption={C4 Container (Mermaid)}]
+flowchart TB
+  CLI[CLI] --> Graph[Orchestrator]
+  Graph --> Agents[Agents]
+  Agents --> Services[Services]
+  Services --> Workspace[Generated App Workspace]
+\end{lstlisting}
+\end{minipage}
+\caption{Vue conteneurs du generateur.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.92\textwidth}
+\lstset{style=yamlstyle}
+\begin{lstlisting}[caption={C4 Component (Mermaid)}]
+flowchart LR
+  Parser --> Planner
+  Planner --> Architect
+  Architect --> Codegen
+  Codegen --> Reviewer
+\end{lstlisting}
+\end{minipage}
+\caption{Vue composants du flux de generation.}
+\end{figure}
+
+\subsection{Etat central partage}
+Le \texttt{DeliveryState} centralise : input brut, exigences parsees, blueprint, design architecture, index des fichiers generes, docs C4, rapport de validation, traces, metadata de run et erreurs.
+
+Ce choix simplifie :
+\begin{itemize}[leftmargin=1.5em]
+  \item le passage inter-etapes,
+  \item la persistance/reprise,
+  \item les interventions,
+  \item la revue finale.
+\end{itemize}
+
+\subsection{Responsabilites des stages}
+\begin{longtable}{p{0.2\textwidth}p{0.72\textwidth}}
+\toprule
+\textbf{Stage} & \textbf{Responsabilite} \\
+\midrule
+\texttt{spec\_analyst} & Transformer l'entree en representation structuree. \\
+\texttt{architect} & Produire le blueprint et les livrables d'architecture/C4. \\
+\texttt{developer} & Generer les fichiers backend/frontend/support. \\
+\texttt{qa\_devops} & Consolider les verifications qualite et CI. \\
+\texttt{reviewer} & Produire la synthese de coherence de fin de run. \\
+\bottomrule
+\end{longtable}
+
+\section{Methodologie}
+\subsection{Approche de developpement}
+L'approche est incrementalement orientee produit : d'abord les contrats et l'orchestration deterministe, puis la generation, la persistance d'artefacts, et enfin la couverture par tests et documentation.
+
+\subsection{Cycle d'execution type}
+\begin{enumerate}[leftmargin=1.5em]
+  \item lecture de l'entree et options de run,
+  \item initialisation etat + metadata,
+  \item execution du stage courant,
+  \item persistance des artefacts,
+  \item pause eventuelle (mode interactif),
+  \item intervention utilisateur,
+  \item reprise jusqu'a completion et rapport final.
+\end{enumerate}
+
+\subsection{Scenario concret de run bout-en-bout}
+\begin{enumerate}[leftmargin=1.5em]
+  \item envoi d'un spec (ex. \texttt{inputs/sample\_spec.md}) via CLI ou \texttt{POST /runs},
+  \item creation du \texttt{run\_id} et initialisation de \texttt{DeliveryState},
+  \item stage \texttt{spec\_analyst} : extraction des exigences,
+  \item stage \texttt{architect} : generation blueprint + C4 (ecrits dans \texttt{outputs/plans/} et \texttt{outputs/c4/}),
+  \item pause interactive et patch eventuel,
+  \item stage \texttt{developer} : rendu des templates vers \texttt{workspace/generated\_app/},
+  \item stages \texttt{qa\_devops} puis \texttt{reviewer},
+  \item persistance finale session + traces dans \texttt{outputs/runs/} et \texttt{outputs/traces/}.
+\end{enumerate}
+
+\begin{lstlisting}[style=yamlstyle,caption={Sequence illustrative de run interactif}]
+POST /runs
+  body: {"input_path":"inputs/sample_spec.md","interactive":true,"dry_run":true}
+
+GET /runs/{run_id}
+  -> status: waiting_for_intervention
+
+POST /runs/{run_id}/interventions
+  body: {"state_field":"architecture_design","patch":{"style":"api-first"},"resume":true}
+
+GET /runs/{run_id}
+  -> status: completed
+\end{lstlisting}
+
+\subsection{Gouvernance prompts et contrats}
+Les prompts sont stockes par familles (agents, taches, communs) pour maintenir versionnage, auditabilite et lisibilite. Les schemas Pydantic servent de contrat de sortie pour fiabiliser les transitions.
+
+\subsection{Strategie de verification}
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Tests unitaires} : settings, parser, state, builder graphe, outils.
+  \item \textbf{Tests integration} : parcours dry-run, generation C4, codegen, session interactive.
+\end{itemize}
+
+\section{Implementation technique}
+\subsection{Stack et rationale}
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Python 3.11} : ecosysteme mature,
+  \item \textbf{LangGraph + fallback} : orchestration robuste en environnement variable,
+  \item \textbf{FastAPI} : API typed et rapide a exposer,
+  \item \textbf{Pydantic} : validation schema-first,
+  \item \textbf{uv/ruff/pytest/pre-commit} : hygiene engineering continue.
+\end{itemize}
+
+\subsection{Surfaces d'entree}
+\paragraph{CLI.}
+Permet run, resume, intervention, mode serveur.
+
+\paragraph{Runtime Python.}
+Expose une fonction minimale pour executer un pipeline et recuperer l'etat final.
+
+\paragraph{API HTTP.}
+Expose \texttt{/health}, \texttt{/runs}, \texttt{/runs/{id}}, \texttt{/resume}, \texttt{/interventions}.
+
+\begin{lstlisting}[style=pythonstyle,caption={Pattern de point d'entree runtime}]
+def run_pipeline(input_path: str, dry_run: bool = False, settings_path: str | None = None):
+    settings = load_settings(settings_path)
+    session = SessionService(settings).start_run(
+        RunRequest(input_path=input_path, dry_run=dry_run, interactive=False)
+    )
+    return session.state
+\end{lstlisting}
+
+\subsection{Orchestration et fallback}
+Lorsque LangGraph est disponible, le graphe compile les nodes dans l'ordre nominal. Sinon, le fallback sequentiel garantit un comportement local deterministe.
+
+\begin{lstlisting}[style=pythonstyle,caption={Fallback sequentiel simplifie}]
+class SequentialGraph:
+    steps: list[callable]
+
+    def invoke(self, state):
+        current = state
+        for step in self.steps:
+            current = step(current)
+        return current
+\end{lstlisting}
+
+\subsection{Session service}
+Le \texttt{SessionService} centralise : selection provider, creation de run, reprise, intervention, persistance des artefacts et sauvegarde de session.
+
+\subsection{Generation applicative}
+Le \texttt{CodegenService} rend des templates backend/frontend/support dans le workspace, avec injection d'un contexte de branding configurable.
+
+\begin{lstlisting}[style=pythonstyle,caption={Flux conceptuel de generation}]
+def generate_app(self, dry_run: bool = False):
+    workspace = self.settings.workspace_path
+    ensure_directory(workspace)
+    if dry_run:
+        return GeneratedAppManifest(app_name="Dry Run App")
+
+    context = self._template_context()
+    self._render_tree(backend_root, workspace / "backend", context)
+    self._render_tree(frontend_root, workspace / "frontend", context)
+    self._write_support_files(workspace, context)
+\end{lstlisting}
+
+\subsection{Configuration et abstraction provider}
+La configuration est separee entre :
+\begin{itemize}[leftmargin=1.5em]
+  \item settings runtime (paths, mode, sorties),
+  \item settings provider/model (mock et profil Snowflake).
+\end{itemize}
+
+\section{Resultats et experimentations}
+\subsection{Capacites effectivement implementees}
+Le depot demontre actuellement :
+\begin{itemize}[leftmargin=1.5em]
+  \item un flux multi-agents deterministe,
+  \item des artefacts structures et persistants,
+  \item une generation C4 integree,
+  \item un workspace applicatif genere,
+  \item un mode session interactive avec intervention,
+  \item des tests unitaires/integration pour non-regression.
+\end{itemize}
+
+\subsection{Instantane quantitatif (indicateurs depot)}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{0.60\textwidth}p{0.20\textwidth}}
+\toprule
+\textbf{Indicateur} & \textbf{Valeur observee} \\
+\midrule
+Fichiers prompts agents (\texttt{prompts/agents/}) & 5 \\
+Fichiers de tests integration (\texttt{tests/integration/}) & 4 \\
+Fichiers de tests unitaires (\texttt{tests/unit/}) & 6 \\
+Modules agents (\texttt{src/ai\_delivery/agents/}) & 6 \\
+Sections obligatoires du rapport presentes & 11/11 \\
+\bottomrule
+\end{tabular}
+\caption{Indicateurs structurels extraits du depot.}
+\end{table}
+
+Ces metriques sont structurelles (maturite implementation) et non des benchmarks de performance runtime.
+
+\subsection{Protocole d'experimentation}
+\begin{enumerate}[leftmargin=1.5em]
+  \item verification des dry-runs,
+  \item verification generation C4,
+  \item verification codegen,
+  \item verification run interactif (pause/intervention/reprise).
+\end{enumerate}
+
+\subsection{Observations}
+Les resultats montrent une bonne adequation pour un contexte demo-jury : lisibilite du flux, auditabilite des sorties, controle de l'autonomie et trajectoire de passage vers une version plus industrielle.
+
+\section{Discussion et limites}
+\subsection{Limites actuelles}
+\begin{itemize}[leftmargin=1.5em]
+  \item provider Snowflake non connecte de bout en bout en runtime,
+  \item persistance backend generee a renforcer (objectif SQLite plus pousse),
+  \item couplage frontend/backend genere encore perfectible,
+  \item CI de l'application generee a durcir.
+\end{itemize}
+
+\subsection{Compromis d'architecture}
+\begin{itemize}[leftmargin=1.5em]
+  \item determinisme vs autonomie,
+  \item templates robustes vs generation totalement libre,
+  \item vitesse de demo vs couverture industrielle complete.
+\end{itemize}
+
+\subsection{Risques}
+Risques principaux : complexite integration provider, derive entre templates et app generee, et cout de maintenance de prompts multiples.
+
+\section{Travaux futurs}
+\subsection{Phase 1 : completion runtime}
+\begin{enumerate}[leftmargin=1.5em]
+  \item finaliser le provider Snowflake,
+  \item renforcer gestion d'erreurs + retries,
+  \item ajouter tests d'integration actives par variables d'environnement.
+\end{enumerate}
+
+\subsection{Phase 2 : durcissement app generee}
+\begin{enumerate}[leftmargin=1.5em]
+  \item finaliser SQLite sur backend,
+  \item forcer integration frontend vers API backend,
+  \item enrichir bootstrap et README de l'app generee.
+\end{enumerate}
+
+\subsection{Phase 3 : experience interactive et observabilite}
+\begin{enumerate}[leftmargin=1.5em]
+  \item endpoints d'intervention plus metier (approve/pause/cancel),
+  \item restrictions d'intervention par stage,
+  \item observabilite plus fine (diagnostics run, metriques).
+\end{enumerate}
+
+\subsection{Phase 4 : industrialisation}
+\begin{enumerate}[leftmargin=1.5em]
+  \item pipeline CI generee plus complete,
+  \item renforcement securite/auth,
+  \item definition de KPI de qualite de generation dans le temps.
+\end{enumerate}
+
+\section{Conclusion}
+\textit{AI Delivery Multi-Agent} montre une approche solide pour l'automatisation assistee par IA de la livraison logicielle. La valeur principale ne se limite pas a generer du code : le systeme structure une chaine complete, explicable et pilotable, de l'analyse a la revue finale.
+
+Dans un contexte hackathon, le projet est convaincant car il conjugue demonstrabilite et discipline d'ingenierie. Dans une perspective industrielle, les fondations sont deja presentes (modularite, contrats types, persistance, API, tests) et les chantiers restants sont clairement identifies.
+
+En synthese, le projet constitue une base credible pour evoluer vers un orchestrateur de livraison logicielle autonome de niveau entreprise.
+
+\end{document}
