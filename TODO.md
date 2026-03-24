@@ -30,6 +30,7 @@ Convention:
 - [x] generation of a target application in `workspace/generated_app/`
 - [x] generator tests passing
 - [x] complete linear repository walkthrough notebook (`REPOSITORY_WALKTHROUGH.ipynb`)
+- [x] comprehensive LaTeX technical report template for hackathon jury presentation
 
 ## P0 - Real Project Test
 
